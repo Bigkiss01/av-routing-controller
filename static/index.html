@@ -4,26 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VAVE AVIP Matrix Control</title>
-    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/style.css?v=1.1">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="app-container">
         <aside class="sidebar">
             <div class="logo">
-                <h2>VAVE Matrix</h2>
-                <p>AV over IP Control</p>
+                <div class="logo-flex" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                    <h2>VAVE Matrix</h2>
+                    <div class="lang-switcher">
+                        <span class="lang-btn active" data-lang="th">TH</span>
+                        <span class="lang-separator">|</span>
+                        <span class="lang-btn" data-lang="en">EN</span>
+                    </div>
+                </div>
+                <p data-i18n="sidebar.subtitle">AV over IP Control</p>
             </div>
             <nav>
                 <ul class="nav-links">
-                    <li><button class="nav-btn active" data-target="matrix-view">Matrix Router</button></li>
-                    <li><button class="nav-btn" data-target="setup-view">Device Setup</button></li>
-                    <li><button class="nav-btn" data-target="scanner-view">Network Scanner</button></li>
+                    <li><button class="nav-btn active" data-target="matrix-view" data-i18n="nav.matrix">Matrix Router</button></li>
+                    <li><button class="nav-btn" data-target="template-view" data-i18n="nav.templates">Routing Templates</button></li>
+                    <li><button class="nav-btn" data-target="setup-view" data-i18n="nav.setup">Device Setup</button></li>
+                    <li><button class="nav-btn" data-target="scanner-view" data-i18n="nav.scanner">Network Scanner</button></li>
                 </ul>
             </nav>
             
             <div class="sidebar-footer">
-                <p>Developed by<br><strong>SD PLUS GROUP CO.,LTD.</strong>Bangkok</p>
+                <p><span data-i18n="sidebar.developed_by">Developed by</span><br><strong>SD PLUS GROUP CO.,LTD.</strong>Bangkok</p>
             </div>
         </aside>
 
@@ -31,15 +39,15 @@
             <!-- Matrix Router View -->
             <section id="matrix-view" class="view-section active">
                 <header>
-                    <h1>AV Matrix Switcher</h1>
-                    <p>Route Encoders (Inputs) to Decoders (Outputs)</p>
+                    <h1 data-i18n="matrix.title">AV Matrix Switcher</h1>
+                    <p data-i18n="matrix.subtitle">Route Encoders (Inputs) to Decoders (Outputs)</p>
                 </header>
                 
                 <div class="matrix-grid split-layout">
                     <!-- Left Panel -->
                     <div class="inputs-panel">
                         <div class="panel-header">
-                            <h3>1. Select Input Source</h3>
+                            <h3 data-i18n="matrix.select_input">1. Select Input Source</h3>
                         </div>
                         <div id="encoders-list" class="device-list vertical">
                             <!-- Populated via JS -->
@@ -49,21 +57,43 @@
                     <!-- Right Panel -->
                     <div class="outputs-panel droppable-area">
                         <div class="panel-header flex-between">
-                            <h3>2. Choose Display Targets</h3>
+                            <h3 data-i18n="matrix.select_output">2. Choose Display Targets</h3>
                             <div class="panel-actions">
-                                <button id="btn-select-all" class="btn outline small">Select All</button>
-                                <button id="btn-clear-all" class="btn outline small">Clear</button>
+                                <button id="btn-select-all" class="btn outline small" data-i18n="matrix.select_all">Select All</button>
+                                <button id="btn-clear-all" class="btn outline small" data-i18n="matrix.clear">Clear</button>
                             </div>
                         </div>
                         <div class="target-controls">
-                            <p class="text-muted">Select displays to switch or drop an input card here:</p>
+                            <p class="text-muted" data-i18n="matrix.instructions">Select displays to switch or drop an input card here:</p>
                         </div>
                         <div id="decoders-list" class="device-list grid-view">
                             <!-- Populated via JS -->
                         </div>
-                        <div class="panel-footer">
-                            <button id="btn-apply-route" class="btn primary full-width" disabled>Apply Route Switch</button>
+                        <div class="panel-footer matrix-footer-actions">
+                            <button id="btn-apply-route" class="btn primary" style="flex: 2;" disabled data-i18n="matrix.apply_switch">Apply Route Switch</button>
+                            <button id="btn-quick-save" class="btn outline" style="flex: 1;" title="Save current routing state as a new template" data-i18n="matrix.quick_save">💾 Quick Save</button>
                         </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Templates View -->
+            <section id="template-view" class="view-section">
+                <header class="flex-between">
+                    <div>
+                        <h1 data-i18n="templates.title">Routing Templates</h1>
+                        <p data-i18n="templates.subtitle">สลับอินพุตและเอาต์พุตพร้อมกันผ่านปุ่มลัด (Presets)</p>
+                    </div>
+                    <div class="header-actions">
+                        <button id="btn-admin-lock" class="btn outline small" data-i18n="templates.enter_admin">🔒 Enter Admin Mode</button>
+                        <button id="btn-new-template" class="btn primary small hidden" data-i18n="templates.new_preset">➕ New Template</button>
+                    </div>
+                </header>
+
+                <div class="templates-container glass-panel">
+                    <div id="templates-grid" class="templates-grid">
+                        <!-- Populated via JS -->
+                        <div class="empty-state" data-i18n="templates.empty_state">No templates configured yet. Click "New Template" in Admin Mode.</div>
                     </div>
                 </div>
             </section>
@@ -71,41 +101,41 @@
             <!-- Device Setup View -->
             <section id="setup-view" class="view-section">
                 <header>
-                    <h1>Device Setup</h1>
-                    <p>Configure IP addresses, names, and roles.</p>
+                    <h1 data-i18n="setup.title">Device Setup</h1>
+                    <p data-i18n="setup.subtitle">Configure IP addresses, names, and roles.</p>
                 </header>
                 
                 <div class="setup-form glass-panel">
-                    <h3>Add/Update Device</h3>
+                    <h3 data-i18n="setup.add_device_title">Add/Update Device</h3>
                     <form id="device-form">
                         <div class="form-group">
-                            <label>IP Address</label>
+                            <label data-i18n="setup.ip_label">IP Address</label>
                             <input type="text" id="dev-ip" placeholder="e.g. 192.168.1.10" required>
                         </div>
                         <div class="form-group">
-                            <label>Device Name</label>
+                            <label data-i18n="setup.name_label">Device Name</label>
                             <input type="text" id="dev-name" placeholder="e.g. Input PC 1" required>
                         </div>
                         <div class="form-group">
-                            <label>Role</label>
+                            <label data-i18n="setup.role_label">Role</label>
                             <select id="dev-role">
-                                <option value="encoder">Encoder (Input)</option>
-                                <option value="decoder">Decoder (Output)</option>
+                                <option value="encoder" data-i18n="setup.role_encoder">Encoder (Input)</option>
+                                <option value="decoder" data-i18n="setup.role_decoder">Decoder (Output)</option>
                             </select>
                         </div>
-                        <button type="submit" class="btn primary">Save Device</button>
+                        <button type="submit" class="btn primary" data-i18n="setup.save_device_btn">Save Device</button>
                     </form>
                 </div>
 
                 <div class="configured-devices glass-panel">
-                    <h3>Configured Devices</h3>
+                    <h3 data-i18n="setup.configured_title">Configured Devices</h3>
                     <table id="devices-table">
                         <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>IP Address</th>
-                                <th>Role</th>
-                                <th>Action</th>
+                                <th data-i18n="setup.col_name">Name</th>
+                                <th data-i18n="setup.col_ip">IP Address</th>
+                                <th data-i18n="setup.col_role">Role</th>
+                                <th data-i18n="setup.col_action">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -113,27 +143,55 @@
                         </tbody>
                     </table>
                 </div>
+
+                <!-- Admin General Settings Panel (Phase 4) -->
+                <div class="admin-settings-panel glass-panel hidden" id="admin-settings-panel">
+                    <h3 data-i18n="admin_settings.title">General Admin Settings</h3>
+                    <form id="admin-config-form" style="margin-bottom: 2rem;">
+                        <div class="form-group">
+                            <label data-i18n="admin_settings.default_lang">Default System Language</label>
+                            <select id="config-sys-lang">
+                                <option value="th">ไทย (Thai)</option>
+                                <option value="en">English</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn primary" data-i18n="admin_settings.save_btn">Save Settings</button>
+                    </form>
+                    
+                    <h3 data-i18n="admin_settings.change_pin_title">Change Admin PIN</h3>
+                    <form id="change-pin-form">
+                        <div class="form-group">
+                            <label data-i18n="admin_settings.old_pin">Old PIN</label>
+                            <input type="password" id="pin-old" placeholder="••••" maxlength="4" required>
+                        </div>
+                        <div class="form-group">
+                            <label data-i18n="admin_settings.new_pin">New PIN</label>
+                            <input type="password" id="pin-new" placeholder="••••" maxlength="4" required>
+                        </div>
+                        <button type="submit" class="btn primary" data-i18n="admin_settings.change_pin_btn">Change PIN</button>
+                    </form>
+                </div>
             </section>
 
             <!-- Scanner View -->
             <section id="scanner-view" class="view-section">
                 <header>
-                    <h1>Network Scanner</h1>
-                    <p>Discover VAVE devices on the local network.</p>
+                    <h1 data-i18n="scanner.title">Network Scanner</h1>
+                    <p data-i18n="scanner.subtitle">Discover VAVE devices on the local network.</p>
                 </header>
                 
                 <div class="scanner-controls glass-panel">
                     <div class="form-group row">
                         <input type="text" id="scan-subnet" value="192.168.1.0/24" placeholder="Subnet (e.g., 192.168.1.0/24)">
-                        <button id="btn-scan" class="btn primary">Start Scan</button>
+                        <button id="btn-scan" class="btn primary" data-i18n="scanner.start_btn">Start Scan</button>
                     </div>
                     <div id="scan-status" class="status-msg"></div>
                 </div>
 
                 <div class="scan-results glass-panel">
-                    <h3>Discovered Devices</h3>
+                    <h3 data-i18n="scanner.discovered_title">Discovered Devices</h3>
                     <ul id="scan-results-list">
-                        <li class="empty-state">No scan performed yet.</li>
+                        <li class="empty-state" data-i18n="scanner.empty_state">No scan performed yet.</li>
                     </ul>
                 </div>
             </section>
@@ -143,6 +201,95 @@
     <!-- Notification Toast -->
     <div id="toast" class="toast hidden"></div>
 
-    <script src="/static/app.js"></script>
+    <!-- Template Editor Modal -->
+    <div id="template-modal" class="modal hidden">
+        <div class="modal-content glass-panel">
+            <h3 id="template-modal-title" data-i18n="modal_template.create_title">Create Template</h3>
+            <form id="template-form">
+                <input type="hidden" id="template-id">
+                <div class="form-group">
+                    <label data-i18n="modal_template.name_label">Template Name</label>
+                    <input type="text" id="template-name" placeholder="e.g. Presentation Mode" required>
+                </div>
+                <div class="form-group">
+                    <label data-i18n="modal_template.desc_label">Description (Optional)</label>
+                    <input type="text" id="template-desc" placeholder="e.g. HDMI1 to TV1 & TV2">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label data-i18n="modal_template.color_label">Color</label>
+                        <select id="template-color">
+                            <option value="#3b82f6">Blue (Default)</option>
+                            <option value="#10b981">Green</option>
+                            <option value="#ef4444">Red</option>
+                            <option value="#f59e0b">Orange</option>
+                            <option value="#8b5cf6">Purple</option>
+                            <option value="#ec4899">Pink</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label data-i18n="modal_template.icon_label">Icon (Emoji)</label>
+                        <select id="template-icon">
+                            <option value="🖥️">🖥️ Desktop</option>
+                            <option value="📊">📊 Chart/Meeting</option>
+                            <option value="🎬">🎬 Movie/Video</option>
+                            <option value="📶">📶 Wireless/Present</option>
+                            <option value="🎮">🎮 Gaming</option>
+                            <option value="🔈">🔈 Audio Only</option>
+                            <option value="💡">💡 Idea/Blank</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
+                        <span data-i18n="modal_template.routing_title">Routing Configuration</span>
+                        <button type="button" id="btn-add-routing-row" class="btn outline small" data-i18n="modal_template.add_row">➕ Add Route</button>
+                    </label>
+                    <div id="routing-rows-container" class="routing-rows-container">
+                        <!-- Dynamic rows populated via JS -->
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" id="btn-cancel-template" class="btn outline" data-i18n="common.cancel">Cancel</button>
+                    <button type="submit" class="btn primary" data-i18n="common.save">Save Template</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- PIN Verification Modal -->
+    <div id="pin-modal" class="modal hidden">
+        <div class="modal-content glass-panel small-modal">
+            <h3 data-i18n="modal_pin.title">Enter Admin PIN</h3>
+            <p class="text-muted" data-i18n="modal_pin.subtitle">โปรดป้อนรหัส PIN 4 หลักเพื่อปลดล็อคโหมดแก้ไข</p>
+            <div class="pin-inputs-container">
+                <input type="password" maxlength="4" id="admin-pin-input" placeholder="••••" style="text-align: center; font-size: 1.5rem; letter-spacing: 0.5rem; width: 100%; margin-top: 1rem;" required>
+            </div>
+            <div id="pin-error-msg" class="status-msg error-text hidden" style="color: var(--danger); margin-top: 0.5rem;" data-i18n="modal_pin.error">รหัส PIN ไม่ถูกต้อง</div>
+            <div class="modal-actions" style="margin-top: 1.5rem;">
+                <button type="button" id="btn-cancel-pin" class="btn outline" data-i18n="common.cancel">Cancel</button>
+                <button type="button" id="btn-submit-pin" class="btn primary" data-i18n="modal_pin.verify">Verify</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirm-modal" class="modal hidden">
+        <div class="modal-content glass-panel small-modal">
+            <h3 id="confirm-title" data-i18n="modal_confirm.title">Apply Template</h3>
+            <p id="confirm-msg" class="text-muted" data-i18n="modal_confirm.subtitle">คุณต้องการใช้งานเทมเพลตนี้หรือไม่?</p>
+            <div id="confirm-routing-summary" class="confirm-routing-summary" style="margin-top: 1rem; border-top: 1px solid var(--border); padding-top: 1rem;">
+                <!-- Summary of routes will be shown here -->
+            </div>
+            <div class="modal-actions" style="margin-top: 1.5rem;">
+                <button type="button" id="btn-cancel-confirm" class="btn outline" data-i18n="common.cancel">Cancel</button>
+                <button type="button" id="btn-submit-confirm" class="btn primary" data-i18n="modal_confirm.apply">Apply</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/app.js?v=1.2"></script>
 </body>
 </html>
