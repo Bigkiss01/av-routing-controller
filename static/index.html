@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VAVE AVIP Matrix Control</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo">
+                <h2>VAVE Matrix</h2>
+                <p>AV over IP Control</p>
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><button class="nav-btn active" data-target="matrix-view">Matrix Router</button></li>
+                    <li><button class="nav-btn" data-target="setup-view">Device Setup</button></li>
+                    <li><button class="nav-btn" data-target="scanner-view">Network Scanner</button></li>
+                </ul>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <p>Developed by<br><strong>SD PLUS GROUP CO.,LTD.</strong>Bangkok</p>
+            </div>
+        </aside>
+
+        <main class="content">
+            <!-- Matrix Router View -->
+            <section id="matrix-view" class="view-section active">
+                <header>
+                    <h1>AV Matrix Switcher</h1>
+                    <p>Route Encoders (Inputs) to Decoders (Outputs)</p>
+                </header>
+                
+                <div class="matrix-grid split-layout">
+                    <!-- Left Panel -->
+                    <div class="inputs-panel">
+                        <div class="panel-header">
+                            <h3>1. Select Input Source</h3>
+                        </div>
+                        <div id="encoders-list" class="device-list vertical">
+                            <!-- Populated via JS -->
+                        </div>
+                    </div>
+                    
+                    <!-- Right Panel -->
+                    <div class="outputs-panel droppable-area">
+                        <div class="panel-header flex-between">
+                            <h3>2. Choose Display Targets</h3>
+                            <div class="panel-actions">
+                                <button id="btn-select-all" class="btn outline small">Select All</button>
+                                <button id="btn-clear-all" class="btn outline small">Clear</button>
+                            </div>
+                        </div>
+                        <div class="target-controls">
+                            <p class="text-muted">Select displays to switch or drop an input card here:</p>
+                        </div>
+                        <div id="decoders-list" class="device-list grid-view">
+                            <!-- Populated via JS -->
+                        </div>
+                        <div class="panel-footer">
+                            <button id="btn-apply-route" class="btn primary full-width" disabled>Apply Route Switch</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Device Setup View -->
+            <section id="setup-view" class="view-section">
+                <header>
+                    <h1>Device Setup</h1>
+                    <p>Configure IP addresses, names, and roles.</p>
+                </header>
+                
+                <div class="setup-form glass-panel">
+                    <h3>Add/Update Device</h3>
+                    <form id="device-form">
+                        <div class="form-group">
+                            <label>IP Address</label>
+                            <input type="text" id="dev-ip" placeholder="e.g. 192.168.1.10" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Device Name</label>
+                            <input type="text" id="dev-name" placeholder="e.g. Input PC 1" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Role</label>
+                            <select id="dev-role">
+                                <option value="encoder">Encoder (Input)</option>
+                                <option value="decoder">Decoder (Output)</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn primary">Save Device</button>
+                    </form>
+                </div>
+
+                <div class="configured-devices glass-panel">
+                    <h3>Configured Devices</h3>
+                    <table id="devices-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>IP Address</th>
+                                <th>Role</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Populated via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Scanner View -->
+            <section id="scanner-view" class="view-section">
+                <header>
+                    <h1>Network Scanner</h1>
+                    <p>Discover VAVE devices on the local network.</p>
+                </header>
+                
+                <div class="scanner-controls glass-panel">
+                    <div class="form-group row">
+                        <input type="text" id="scan-subnet" value="192.168.1.0/24" placeholder="Subnet (e.g., 192.168.1.0/24)">
+                        <button id="btn-scan" class="btn primary">Start Scan</button>
+                    </div>
+                    <div id="scan-status" class="status-msg"></div>
+                </div>
+
+                <div class="scan-results glass-panel">
+                    <h3>Discovered Devices</h3>
+                    <ul id="scan-results-list">
+                        <li class="empty-state">No scan performed yet.</li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="toast hidden"></div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
