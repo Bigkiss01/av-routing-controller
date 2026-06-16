@@ -1561,12 +1561,16 @@ document.addEventListener('DOMContentLoaded', () => {
                         if (found.length === 0) {
                             resultsList.innerHTML = `<li class="empty-state">${currentLanguage === 'en' ? 'No VAVE devices discovered.' : 'ไม่พบอุปกรณ์ VAVE'}</li>`;
                         } else {
-                            resultsList.innerHTML = found.map(dev => `
-                                <li>
-                                    <strong>${dev.name || 'VAVE Device'}</strong>
-                                    <span class="text-muted">IP: ${dev.ip} (${dev.role.toUpperCase()})</span>
-                                </li>
-                            `).join('');
+                            resultsList.innerHTML = found.map(dev => {
+                                const roleName = dev.role ? dev.role.toUpperCase() : 'DEVICE';
+                                const portsInfo = dev.ports ? ` - Ports: ${dev.ports.join(', ')}` : '';
+                                return `
+                                    <li>
+                                        <strong>${dev.name || 'VAVE Device'}</strong>
+                                        <span class="text-muted">IP: ${dev.ip} (${roleName})${portsInfo}</span>
+                                    </li>
+                                `;
+                            }).join('');
                         }
                     }
                 } else {

@@ -2,11 +2,11 @@ import socket
 import concurrent.futures
 import ipaddress
 
-def check_device(ip, timeout=0.5):
+def check_device(ip, timeout=1.0):
     """
     Check if common AV over IP control ports are open on a given IP.
     """
-    ports_to_check = [80, 23, 5000, 8000]
+    ports_to_check = [80, 23, 5000, 8000, 8080]
     open_ports = []
     
     for port in ports_to_check:
