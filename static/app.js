@@ -865,8 +865,8 @@ document.addEventListener('DOMContentLoaded', () => {
         container.innerHTML = logs.map(log => `
             <div class="log-entry">
                 <span class="log-timestamp">${log.timestamp}</span>
-                <span class="log-type-badge log-type-${log.action}">${log.action}</span>
-                <span class="log-description">${log.details}</span>
+                <span class="log-type-badge log-type-${log.action_type}">${log.action_type}</span>
+                <span class="log-description">${log.description}</span>
             </div>
         `).join('');
     }
