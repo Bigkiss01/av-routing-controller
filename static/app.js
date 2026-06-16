@@ -4,10 +4,19 @@ document.addEventListener('DOMContentLoaded', () => {
         en: {
             "sidebar.subtitle": "AV over IP Control",
             "sidebar.developed_by": "Developed by",
+            "nav.dashboard": "Dashboard",
             "nav.matrix": "Matrix Router",
             "nav.templates": "Routing Templates",
             "nav.setup": "Device Setup",
             "nav.scanner": "Network Scanner",
+            "dashboard.title": "Dashboard",
+            "dashboard.subtitle": "Live Connection Overview",
+            "dashboard.refresh": "🔄 Refresh",
+            "dashboard.loading": "Loading device data...",
+            "dashboard.stat_inputs": "Inputs (Encoders)",
+            "dashboard.stat_outputs": "Outputs (Decoders)",
+            "dashboard.stat_templates": "Templates",
+            "dashboard.stat_routes": "Active Routes",
             "matrix.title": "AV Matrix Switcher",
             "matrix.subtitle": "Route Encoders (Inputs) to Decoders (Outputs)",
             "matrix.select_input": "1. Select Input Source",
@@ -16,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
             "matrix.clear": "Clear",
             "matrix.instructions": "Select displays to switch or drop an input card here:",
             "matrix.apply_switch": "Apply Route Switch",
+            "matrix.blackout_selected": "🚫 Blackout",
             "matrix.quick_save": "💾 Quick Save",
             "templates.title": "Routing Templates",
             "templates.subtitle": "Switch inputs and outputs simultaneously via presets",
@@ -23,27 +33,27 @@ document.addEventListener('DOMContentLoaded', () => {
             "templates.exit_admin": "🔓 Exit Admin Mode",
             "templates.new_preset": "➕ New Template",
             "templates.empty_state": "No templates configured yet. Click 'New Template' in Admin Mode.",
+            "templates.export": "📤 Export",
+            "templates.import": "📥 Import",
             "setup.title": "Device Setup",
             "setup.subtitle": "Configure IP addresses, names, and roles.",
-            "setup.add_device_title": "Add/Update Device",
-            "setup.ip_label": "IP Address",
-            "setup.name_label": "Device Name",
-            "setup.role_label": "Role",
-            "setup.role_encoder": "Encoder (Input)",
-            "setup.role_decoder": "Decoder (Output)",
-            "setup.save_device_btn": "Save Device",
             "setup.configured_title": "Configured Devices",
-            "setup.col_name": "Name",
+            "setup.save_labels_btn": "💾 Save Custom Names",
+            "setup.col_name": "Name (from VAVE)",
+            "setup.col_custom_name": "Custom Display Name",
             "setup.col_ip": "IP Address",
             "setup.col_role": "Role",
-            "setup.col_action": "Action",
             "admin_settings.title": "General Admin Settings",
             "admin_settings.default_lang": "Default System Language",
+            "admin_settings.vave_server_ip": "VAVE Server IP Address",
             "admin_settings.save_btn": "Save Settings",
             "admin_settings.change_pin_title": "Change Admin PIN",
             "admin_settings.old_pin": "Old PIN",
             "admin_settings.new_pin": "New PIN",
             "admin_settings.change_pin_btn": "Change PIN",
+            "admin_settings.log_title": "Activity Log",
+            "admin_settings.clear_log": "🗑️ Clear Log",
+            "admin_settings.log_empty": "No activity recorded yet.",
             "scanner.title": "Network Scanner",
             "scanner.subtitle": "Discover VAVE devices on the local network.",
             "scanner.start_btn": "Start Scan",
@@ -66,11 +76,13 @@ document.addEventListener('DOMContentLoaded', () => {
             "modal_confirm.title": "Apply Template Preset",
             "modal_confirm.subtitle": "Are you sure you want to apply this preset?",
             "modal_confirm.apply": "Apply",
-            // Dynamic text mappings
+            // Dynamic labels and messages
+            "status.checking": "Checking...",
+            "status.online": "Online",
+            "status.offline": "Offline (Simulator)",
             "active_source": "Active Source",
             "confirm_del": "Are you sure you want to delete template \"{name}\"?",
             "err_no_routes": "Please add at least 1 routing configuration.",
-            "err_no_devices": "No active display devices found to save.",
             "toast_pin_success": "Admin Mode enabled",
             "toast_pin_exit": "Admin Mode disabled",
             "toast_pin_autolock": "Admin Mode locked due to inactivity",
@@ -81,46 +93,56 @@ document.addEventListener('DOMContentLoaded', () => {
         th: {
             "sidebar.subtitle": "ระบบควบคุม AV over IP",
             "sidebar.developed_by": "พัฒนาโดย",
-            "nav.matrix": "หน้าควบคุมหลัก",
-            "nav.templates": "เทมเพลตสลับสัญญาณ",
+            "nav.dashboard": "แดชบอร์ด",
+            "nav.matrix": "สลับสัญญาณ",
+            "nav.templates": "เทมเพลตปุ่มลัด",
             "nav.setup": "ตั้งค่าอุปกรณ์",
             "nav.scanner": "ค้นหาอุปกรณ์",
+            "dashboard.title": "แดชบอร์ด",
+            "dashboard.subtitle": "ภาพรวมการเชื่อมต่อสัญญาณทั้งหมด (Live)",
+            "dashboard.refresh": "🔄 รีเฟรช",
+            "dashboard.loading": "กำลังโหลดข้อมูลอุปกรณ์...",
+            "dashboard.stat_inputs": "ตัวส่งสัญญาณ (Inputs)",
+            "dashboard.stat_outputs": "ตัวรับสัญญาณ (Outputs)",
+            "dashboard.stat_templates": "เทมเพลตทั้งหมด",
+            "dashboard.stat_routes": "การเชื่อมต่อขณะนี้",
             "matrix.title": "เครื่องสลับสัญญาณภาพและเสียง",
-            "matrix.subtitle": "สลับอินพุต (ตัวส่ง) ไปยังเอาต์พุต (จอแสดงผล)",
+            "matrix.subtitle": "สลับสัญญาณอินพุต (ตัวส่ง) ไปยังเอาต์พุต (จอแสดงผล)",
             "matrix.select_input": "1. เลือกแหล่งสัญญาณอินพุต",
             "matrix.select_output": "2. เลือกจอแสดงผลปลายทาง",
             "matrix.select_all": "เลือกทั้งหมด",
-            "matrix.clear": "ล้างการเลือก",
+            "matrix.clear": "ล้างค่า",
             "matrix.instructions": "เลือกจอแสดงผลที่ต้องการสลับ หรือลากการ์ดอินพุตมาวางที่นี่:",
-            "matrix.apply_switch": "ยืนยันสลับสัญญาณ",
+            "matrix.apply_switch": "ยืนยันการสลับสัญญาณ",
+            "matrix.blackout_selected": "🚫 ปิดสัญญาณ",
             "matrix.quick_save": "💾 บันทึกด่วน",
-            "templates.title": "เทมเพลตและพรีเซ็ต",
+            "templates.title": "เทมเพลตสลับสัญญาณ",
             "templates.subtitle": "สลับอินพุตและเอาต์พุตพร้อมกันผ่านปุ่มลัด (Presets)",
             "templates.enter_admin": "🔒 เข้าสู่โหมดผู้ดูแลระบบ",
             "templates.exit_admin": "🔓 ออกจากโหมดผู้ดูแลระบบ",
             "templates.new_preset": "➕ สร้างเทมเพลตใหม่",
             "templates.empty_state": "ยังไม่มีเทมเพลตที่ตั้งค่าไว้ คลิก 'สร้างเทมเพลตใหม่' ในโหมดผู้ดูแลระบบ",
+            "templates.export": "📤 ส่งออก",
+            "templates.import": "📥 นำเข้า",
             "setup.title": "ตั้งค่าอุปกรณ์",
-            "setup.subtitle": "กำหนดค่าที่อยู่ IP, ชื่ออุปกรณ์ และหน้าที่การทำงาน",
-            "setup.add_device_title": "เพิ่ม/อัปเดตอุปกรณ์",
-            "setup.ip_label": "ที่อยู่ IP",
-            "setup.name_label": "ชื่ออุปกรณ์",
-            "setup.role_label": "บทบาทหน้าที่",
-            "setup.role_encoder": "ตัวส่งสัญญาณ (Encoder)",
-            "setup.role_decoder": "ตัวรับสัญญาณ (Decoder)",
-            "setup.save_device_btn": "บันทึกข้อมูลอุปกรณ์",
-            "setup.configured_title": "อุปกรณ์ที่ตั้งค่าไว้",
-            "setup.col_name": "ชื่ออุปกรณ์",
+            "setup.subtitle": "กำหนดค่าชื่ออุปกรณ์ และบทบาทการทำงานในระบบ",
+            "setup.configured_title": "อุปกรณ์ที่กำหนดค่าไว้",
+            "setup.save_labels_btn": "💾 บันทึกชื่ออุปกรณ์",
+            "setup.col_name": "ชื่อดั้งเดิม (VAVE)",
+            "setup.col_custom_name": "ชื่อที่ตั้งเอง (Display Name)",
             "setup.col_ip": "ที่อยู่ IP",
-            "setup.col_role": "บทบาท",
-            "setup.col_action": "การจัดการ",
+            "setup.col_role": "หน้าที่ของอุปกรณ์",
             "admin_settings.title": "ตั้งค่าระบบทั่วไป (Admin)",
             "admin_settings.default_lang": "ภาษาเริ่มต้นของระบบ",
+            "admin_settings.vave_server_ip": "ที่อยู่ IP ของ VAVE Server",
             "admin_settings.save_btn": "บันทึกการตั้งค่า",
             "admin_settings.change_pin_title": "เปลี่ยนรหัส PIN ผู้ดูแลระบบ",
             "admin_settings.old_pin": "รหัส PIN เดิม",
             "admin_settings.new_pin": "รหัส PIN ใหม่",
             "admin_settings.change_pin_btn": "เปลี่ยนรหัส PIN",
+            "admin_settings.log_title": "ประวัติการใช้งานระบบ",
+            "admin_settings.clear_log": "🗑️ ล้างประวัติ",
+            "admin_settings.log_empty": "ไม่มีประวัติการใช้งานในระบบขณะนี้",
             "scanner.title": "ค้นหาอุปกรณ์ในระบบ",
             "scanner.subtitle": "สแกนค้นหาอุปกรณ์ VAVE ในวงเครือข่ายท้องถิ่น",
             "scanner.start_btn": "เริ่มสแกน",
@@ -143,16 +165,18 @@ document.addEventListener('DOMContentLoaded', () => {
             "modal_confirm.title": "ใช้งานเทมเพลตสลับสัญญาณ",
             "modal_confirm.subtitle": "คุณต้องการใช้งานพรีเซ็ตนี้ใช่หรือไม่?",
             "modal_confirm.apply": "ใช้งาน",
-            // Dynamic text mappings
+            // Dynamic labels and messages
+            "status.checking": "กำลังตรวจสอบ...",
+            "status.online": "เชื่อมต่อแล้ว",
+            "status.offline": "จำลองสถานะออฟไลน์",
             "active_source": "สัญญาณที่แสดงอยู่",
             "confirm_del": "ต้องการลบเทมเพลต \"{name}\" ใช่หรือไม่?",
             "err_no_routes": "โปรดตั้งค่าการจัดเส้นทางอย่างน้อย 1 รายการ",
-            "err_no_devices": "ไม่พบข้อมูลหน้าจอที่ใช้งานอยู่ ไม่สามารถบันทึกได้",
             "toast_pin_success": "เข้าสู่โหมด Admin สำเร็จ",
             "toast_pin_exit": "ออกจากโหมด Admin แล้ว",
             "toast_pin_autolock": "ระบบทำการ Auto-lock โหมด Admin เนื่องจากไม่มีการใช้งาน",
             "toast_pin_update": "เปลี่ยนรหัส Admin PIN สำเร็จ",
-            "toast_config_update": "บันทึกค่าภาษาเริ่มต้นของระบบสำเร็จ",
+            "toast_config_update": "บันทึกการตั้งค่าสำเร็จ",
             "toast_quick_save_empty": "ไม่มีการเชื่อมโยงสัญญาณใดๆ ในขณะนี้ ไม่สามารถบันทึกได้"
         }
     };
@@ -184,9 +208,8 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('[data-i18n]').forEach(el => {
             const key = el.dataset.i18n;
             if (translations[lang][key]) {
-                // If it contains HTML elements inside (like <strong> in разработан) handle selectively
                 if (key === 'sidebar.developed_by') {
-                    el.innerHTML = `${translations[lang][key]}`;
+                    el.innerHTML = translations[lang][key];
                 } else {
                     el.textContent = translations[lang][key];
                 }
@@ -196,8 +219,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // Translate input placeholders
         const placeholders = {
             'scan-subnet': lang === 'en' ? 'Subnet (e.g., 192.168.1.0/24)' : 'ช่วงเครือข่าย เช่น 192.168.1.0/24',
-            'dev-ip': lang === 'en' ? 'e.g. 192.168.1.10' : 'เช่น 192.168.1.10',
-            'dev-name': lang === 'en' ? 'e.g. Input PC 1' : 'เช่น คอมพิวเตอร์นำเสนอ 1',
             'template-name': lang === 'en' ? 'e.g. Presentation Mode' : 'เช่น โหมดนำเสนอความรู้',
             'template-desc': lang === 'en' ? 'e.g. HDMI1 to TV1 & TV2' : 'เช่น HDMI1 ออกจอ TV1 และ TV2',
             'admin-pin-input': '••••',
@@ -210,9 +231,17 @@ document.addEventListener('DOMContentLoaded', () => {
             if (input) input.placeholder = val;
         }
 
+        // Translate connection status dynamically
+        const label = document.getElementById('status-label');
+        if (label && label.dataset.i18n && translations[lang][label.dataset.i18n]) {
+            label.textContent = translations[lang][label.dataset.i18n];
+        }
+
         // Re-render components that construct raw text dynamically
+        renderDashboard();
         renderMatrixGrid();
         renderTemplateGrid();
+        renderDevicesTable();
     }
 
     function changeLanguage(lang) {
@@ -232,20 +261,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const viewSections = document.querySelectorAll('.view-section');
 
     function navigateTo(targetId) {
-        // Hide all sections
         viewSections.forEach(section => {
             section.classList.remove('active');
         });
-        // Remove active from all nav buttons
         navBtns.forEach(btn => {
             btn.classList.remove('active');
         });
-        // Show target section
         const targetSection = document.getElementById(targetId);
         if (targetSection) {
             targetSection.classList.add('active');
         }
-        // Set active nav button
         const targetBtn = document.querySelector(`.nav-btn[data-target="${targetId}"]`);
         if (targetBtn) {
             targetBtn.classList.add('active');
@@ -262,6 +287,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Toast Notification ---
     function showToast(message, isError = false) {
         const toast = document.getElementById('toast');
+        if (!toast) return;
         toast.textContent = message;
         if(isError) toast.classList.add('error');
         else toast.classList.remove('error');
@@ -277,6 +303,7 @@ document.addEventListener('DOMContentLoaded', () => {
             devices = await res.json();
             renderDevicesTable();
             renderMatrixGrid();
+            renderDashboard();
             await fetchTemplates();
         } catch (e) {
             showToast(currentLanguage === 'en' ? 'Failed to load devices' : 'ไม่สามารถโหลดข้อมูลอุปกรณ์ได้', true);
@@ -306,15 +333,123 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Helper function to get source name ---
     function getSourceName(sourceId) {
-        if (!sourceId || sourceId === '' || sourceId === '0') return currentLanguage === 'en' ? 'None' : 'ไม่มี';
+        if (!sourceId || sourceId === '' || sourceId === '0') return currentLanguage === 'en' ? 'None (Blackout)' : 'ไม่มี (ปิดสัญญาณ)';
         const enc = devices.find(d => d.role === 'encoder' && d.id === sourceId);
-        return enc ? enc.name : `${currentLanguage === 'en' ? 'Input' : 'อินพุต'} ${sourceId}`;
+        return enc ? (enc.display_name || enc.name) : `${currentLanguage === 'en' ? 'Input' : 'อินพุต'} ${sourceId}`;
     }
 
     // --- UI Renderers ---
+    function renderDashboard() {
+        const container = document.getElementById('rack-view-container');
+        if (!container) return;
+        
+        const encoders = devices.filter(d => d.role === 'encoder');
+        const decoders = devices.filter(d => d.role === 'decoder');
+        
+        if (devices.length === 0) {
+            container.innerHTML = `
+                <div class="empty-state">
+                    ${currentLanguage === 'en' ? 'No devices found. Is VAVE Server online?' : 'ไม่พบอุปกรณ์ในระบบ ตรวจสอบว่า VAVE Server เปิดอยู่หรือไม่'}
+                </div>
+            `;
+            return;
+        }
+        
+        container.innerHTML = '';
+        
+        // Group decoders by active encoder source
+        const routedMap = {};
+        encoders.forEach(enc => {
+            routedMap[enc.id] = [];
+        });
+        
+        const unrouted = [];
+        decoders.forEach(dec => {
+            const srcId = dec.source_id;
+            if (srcId && srcId !== '0' && routedMap[srcId]) {
+                routedMap[srcId].push(dec);
+            } else {
+                unrouted.push(dec);
+            }
+        });
+        
+        // Render rows for each active encoder group
+        encoders.forEach(enc => {
+            const connectedDecs = routedMap[enc.id];
+            if (connectedDecs && connectedDecs.length > 0) {
+                const row = document.createElement('div');
+                row.className = 'rack-row';
+                
+                const decHtml = connectedDecs.map(dec => 
+                    `<span class="rack-dec-badge">${dec.display_name || dec.name}</span>`
+                ).join('');
+                
+                row.innerHTML = `
+                    <div class="rack-encoder">
+                        <span class="rack-enc-badge">${enc.display_name || enc.name}</span>
+                    </div>
+                    <div class="rack-arrow">➔</div>
+                    <div class="rack-decoders">${decHtml}</div>
+                `;
+                container.appendChild(row);
+            }
+        });
+        
+        // Render row for blackout / idle decoders
+        if (unrouted.length > 0) {
+            const row = document.createElement('div');
+            row.className = 'rack-row';
+            
+            const decHtml = unrouted.map(dec => 
+                `<span class="rack-dec-badge no-source">${dec.display_name || dec.name}</span>`
+            ).join('');
+            
+            const blackoutLabel = currentLanguage === 'en' ? 'Blackout / No Signal' : 'ปิดสัญญาณ / ว่าง';
+            row.innerHTML = `
+                <div class="rack-encoder">
+                    <span class="rack-enc-badge" style="background: rgba(239, 68, 68, 0.15); border-color: rgba(239, 68, 68, 0.3); color: var(--danger);">${blackoutLabel}</span>
+                </div>
+                <div class="rack-arrow">➔</div>
+                <div class="rack-decoders">${decHtml}</div>
+            `;
+            container.appendChild(row);
+        }
+        
+        if (container.children.length === 0) {
+            container.innerHTML = `
+                <div class="empty-state">
+                    ${currentLanguage === 'en' ? 'All displays are idle.' : 'หน้าจอทั้งหมดว่าง'}
+                </div>
+            `;
+        }
+        
+        // Update Stats
+        const encodersStat = document.getElementById('stat-encoders');
+        const decodersStat = document.getElementById('stat-decoders');
+        const templatesStat = document.getElementById('stat-templates');
+        const activeRoutesStat = document.getElementById('stat-active-routes');
+        
+        if (encodersStat) encodersStat.textContent = encoders.length;
+        if (decodersStat) decodersStat.textContent = decoders.length;
+        if (templatesStat) templatesStat.textContent = templates.length;
+        
+        const activeRoutesCount = decoders.filter(d => d.source_id && d.source_id !== '0').length;
+        if (activeRoutesStat) activeRoutesStat.textContent = activeRoutesCount;
+        
+        // Update Timestamp Badge
+        const lastUpdated = document.getElementById('last-updated-badge');
+        if (lastUpdated) {
+            const now = new Date();
+            const timeStr = now.toTimeString().split(' ')[0];
+            lastUpdated.textContent = currentLanguage === 'en' ? `Last updated: ${timeStr}` : `อัปเดตล่าสุด: ${timeStr}`;
+        }
+    }
+
     function renderDevicesTable() {
         const tbody = document.querySelector('#devices-table tbody');
+        if (!tbody) return;
         tbody.innerHTML = '';
+        
         if (!devices || devices.length === 0) {
             const emptyText = currentLanguage === 'en' 
                 ? 'No devices synced. Is VAVE Server online?' 
@@ -322,13 +457,30 @@ document.addEventListener('DOMContentLoaded', () => {
             tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color: var(--text-muted)">${emptyText}</td></tr>`;
             return;
         }
+        
         devices.forEach(dev => {
             const tr = document.createElement('tr');
+            
+            let customNameCol = '';
+            if (isAdminMode) {
+                customNameCol = `
+                    <td>
+                        <input type="text" class="custom-name-input" data-id="${dev.id}" value="${dev.display_name || dev.name}" style="padding: 0.4rem 0.6rem; font-size: 0.9rem; margin: 0; width: 90%;">
+                    </td>
+                `;
+            } else {
+                customNameCol = `<td>${dev.display_name || dev.name}</td>`;
+            }
+            
+            const roleLabel = dev.role === 'encoder' 
+                ? (currentLanguage === 'en' ? 'ENCODER (INPUT)' : 'ตัวส่ง (INPUT)')
+                : (currentLanguage === 'en' ? 'DECODER (OUTPUT)' : 'ตัวรับ (OUTPUT)');
+                
             tr.innerHTML = `
                 <td><strong>${dev.name}</strong> <span class="text-muted">(ID: ${dev.id})</span></td>
+                ${customNameCol}
                 <td>${dev.ip}</td>
-                <td><span style="color: ${dev.role === 'encoder' ? 'var(--accent)' : 'var(--primary)'}">${dev.role.toUpperCase()}</span></td>
-                <td><span class="text-muted" style="font-size:0.8rem">${currentLanguage === 'en' ? 'Auto Synced' : 'เชื่อมต่ออัตโนมัติ'}</span></td>
+                <td><span style="color: ${dev.role === 'encoder' ? 'var(--accent)' : 'var(--primary)'}">${roleLabel}</span></td>
             `;
             tbody.appendChild(tr);
         });
@@ -338,6 +490,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const encodersList = document.getElementById('encoders-list');
         const decodersList = document.getElementById('decoders-list');
         const btnApply = document.getElementById('btn-apply-route');
+        
+        if (!encodersList || !decodersList || !btnApply) return;
         
         const encoders = devices.filter(d => d.role === 'encoder');
         const decoders = devices.filter(d => d.role === 'decoder');
@@ -354,19 +508,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 card.dataset.id = enc.id;
                 
                 card.innerHTML = `
-                    <h4>${enc.name}</h4>
+                    <h4>${enc.display_name || enc.name}</h4>
                     <p style="margin-bottom:0">IP: ${enc.ip}</p>
                     <div class="status-dot"></div>
                 `;
 
-                // Click to select
                 card.addEventListener('click', () => {
                     selectedEncoderId = enc.id;
                     btnApply.disabled = false;
                     renderMatrixGrid();
                 });
 
-                // Drag start
                 card.addEventListener('dragstart', (e) => {
                     e.dataTransfer.setData('text/plain', enc.id);
                     e.dataTransfer.effectAllowed = 'copy';
@@ -390,7 +542,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 card.innerHTML = `
                     <div class="card-header-flex">
                         <div>
-                            <h4>${dec.name}</h4>
+                            <h4>${dec.display_name || dec.name}</h4>
                             <p style="margin-bottom:0">IP: ${dec.ip}</p>
                         </div>
                         <input type="checkbox" class="custom-checkbox decoder-checkbox" value="${dec.id}">
@@ -401,7 +553,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 `;
 
-                // Click on card checks the box
                 card.addEventListener('click', (e) => {
                     if(e.target.type !== 'checkbox') {
                         const cb = card.querySelector('.decoder-checkbox');
@@ -409,7 +560,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 });
 
-                // Drop target logic
                 card.addEventListener('dragover', (e) => {
                     e.preventDefault();
                     card.classList.add('active-drop');
@@ -437,64 +587,174 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- Panel Buttons ---
-    document.getElementById('btn-select-all').addEventListener('click', () => {
-        document.querySelectorAll('.decoder-checkbox').forEach(cb => cb.checked = true);
-    });
+    const btnSelectAll = document.getElementById('btn-select-all');
+    if (btnSelectAll) {
+        btnSelectAll.addEventListener('click', () => {
+            document.querySelectorAll('.decoder-checkbox').forEach(cb => cb.checked = true);
+        });
+    }
 
-    document.getElementById('btn-clear-all').addEventListener('click', () => {
-        document.querySelectorAll('.decoder-checkbox').forEach(cb => cb.checked = false);
-    });
+    const btnClearAll = document.getElementById('btn-clear-all');
+    if (btnClearAll) {
+        btnClearAll.addEventListener('click', () => {
+            document.querySelectorAll('.decoder-checkbox').forEach(cb => cb.checked = false);
+        });
+    }
 
-    document.getElementById('btn-apply-route').addEventListener('click', () => {
-        if(!selectedEncoderId) return;
-        const checkedBoxes = document.querySelectorAll('.decoder-checkbox:checked');
-        const decoderIds = Array.from(checkedBoxes).map(cb => cb.value);
-        
-        if(decoderIds.length === 0) {
-            showToast(currentLanguage === 'en' ? 'Please select at least one display target' : 'โปรดเลือกจอแสดงผลปลายทางอย่างน้อย 1 จอ', true);
-            return;
-        }
-        routeVideo(selectedEncoderId, decoderIds);
-    });
+    const btnApply = document.getElementById('btn-apply-route');
+    if (btnApply) {
+        btnApply.addEventListener('click', () => {
+            if(!selectedEncoderId) return;
+            const checkedBoxes = document.querySelectorAll('.decoder-checkbox:checked');
+            const decoderIds = Array.from(checkedBoxes).map(cb => cb.value);
+            
+            if(decoderIds.length === 0) {
+                showToast(currentLanguage === 'en' ? 'Please select at least one display target' : 'โปรดเลือกจอแสดงผลปลายทางอย่างน้อย 1 จอ', true);
+                return;
+            }
+            routeVideo(selectedEncoderId, decoderIds);
+        });
+    }
 
     // --- Global Drop Area ---
     const outputsPanel = document.querySelector('.outputs-panel');
-    outputsPanel.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        outputsPanel.classList.add('drag-over');
-    });
-    outputsPanel.addEventListener('dragleave', (e) => {
-        if(!outputsPanel.contains(e.relatedTarget)) {
+    if (outputsPanel) {
+        outputsPanel.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            outputsPanel.classList.add('drag-over');
+        });
+        outputsPanel.addEventListener('dragleave', (e) => {
+            if(!outputsPanel.contains(e.relatedTarget)) {
+                outputsPanel.classList.remove('drag-over');
+            }
+        });
+        outputsPanel.addEventListener('drop', (e) => {
+            e.preventDefault();
             outputsPanel.classList.remove('drag-over');
+            const draggedEncoderId = e.dataTransfer.getData('text/plain');
+            if(draggedEncoderId) {
+                const checkedBoxes = document.querySelectorAll('.decoder-checkbox:checked');
+                const decoderIds = Array.from(checkedBoxes).map(cb => cb.value);
+                if(decoderIds.length > 0) {
+                    routeVideo(draggedEncoderId, decoderIds);
+                } else {
+                    showToast(currentLanguage === 'en' ? 'Drop on a display card, or select checkboxes first.' : 'โปรดลากวางบนการ์ดจอแสดงผล หรือเลือกกล่องเครื่องหมายก่อน', true);
+                }
+            }
+        });
+    }
+
+    // --- Server Status Badge Refresh ---
+    async function updateServerStatus() {
+        try {
+            const res = await fetch('/api/server-status');
+            if (res.ok) {
+                const status = await res.json();
+                const dot = document.getElementById('status-dot');
+                const label = document.getElementById('status-label');
+                const ipSpan = document.getElementById('status-ip');
+                
+                if (status.online) {
+                    if (dot) dot.className = 'status-indicator online';
+                    if (label) {
+                        label.dataset.i18n = 'status.online';
+                        label.textContent = translations[currentLanguage]['status.online'];
+                    }
+                } else {
+                    if (dot) dot.className = 'status-indicator offline';
+                    if (label) {
+                        label.dataset.i18n = 'status.offline';
+                        label.textContent = translations[currentLanguage]['status.offline'];
+                    }
+                }
+                if (ipSpan) ipSpan.textContent = status.ip || '';
+            }
+        } catch (e) {
+            console.error('Failed to get server status:', e);
         }
-    });
-    outputsPanel.addEventListener('drop', (e) => {
-        e.preventDefault();
-        outputsPanel.classList.remove('drag-over');
-        const draggedEncoderId = e.dataTransfer.getData('text/plain');
-        if(draggedEncoderId) {
+    }
+
+    // --- Dashboard Manual Refresh Button ---
+    const btnRefreshDashboard = document.getElementById('btn-refresh-dashboard');
+    if (btnRefreshDashboard) {
+        btnRefreshDashboard.addEventListener('click', () => {
+            fetchDevices();
+            updateServerStatus();
+            showToast(currentLanguage === 'en' ? 'Refreshing status...' : 'กำลังอัปเดตข้อมูล...', false);
+        });
+    }
+
+    // --- Blackout Selected Button ---
+    const btnBlackoutSelected = document.getElementById('btn-blackout-selected');
+    if (btnBlackoutSelected) {
+        btnBlackoutSelected.addEventListener('click', async () => {
             const checkedBoxes = document.querySelectorAll('.decoder-checkbox:checked');
             const decoderIds = Array.from(checkedBoxes).map(cb => cb.value);
-            if(decoderIds.length > 0) {
-                routeVideo(draggedEncoderId, decoderIds);
-            } else {
-                showToast(currentLanguage === 'en' ? 'Drop on a display card, or select checkboxes first.' : 'โปรดลากวางบนการ์ดจอแสดงผล หรือเลือกกล่องเครื่องหมายก่อน', true);
+            
+            if (decoderIds.length === 0) {
+                showToast(currentLanguage === 'en' ? 'Please select at least one display to blackout' : 'โปรดเลือกหน้าจอที่ต้องการปิดสัญญาณอย่างน้อย 1 หน้าจอ', true);
+                return;
             }
-        }
-    });
+            
+            try {
+                const res = await fetch('/api/blackout', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ decoder_ids: decoderIds })
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    showToast(currentLanguage === 'en' ? 'Blackout applied successfully' : 'ปิดสัญญาณหน้าจอสำเร็จ');
+                    setTimeout(fetchDevices, 1000);
+                } else {
+                    showToast(data.message || 'Failed to apply blackout', true);
+                }
+            } catch (e) {
+                showToast(currentLanguage === 'en' ? 'Failed to send blackout command' : 'ไม่สามารถส่งคำสั่งปิดสัญญาณได้', true);
+            }
+        });
+    }
 
-    // Disable device form since we auto-sync now
-    const formBtn = document.querySelector('#device-form button[type="submit"]');
-    if (formBtn) {
-        formBtn.disabled = true;
-        formBtn.textContent = currentLanguage === 'en' ? "Disabled (Auto Synced)" : "ปิดใช้งาน (ซิงค์อัตโนมัติจากเซิร์ฟเวอร์)";
+    // --- Custom Name Labels Save Button ---
+    const btnSaveLabels = document.getElementById('btn-save-labels');
+    if (btnSaveLabels) {
+        btnSaveLabels.addEventListener('click', async () => {
+            const inputs = document.querySelectorAll('.custom-name-input');
+            const labelsMap = {};
+            inputs.forEach(input => {
+                const id = input.dataset.id;
+                const val = input.value.trim();
+                if (id) {
+                    labelsMap[id] = val;
+                }
+            });
+            
+            try {
+                const res = await fetch('/api/devices/labels', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Admin-PIN': adminPin
+                    },
+                    body: JSON.stringify(labelsMap)
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    showToast(currentLanguage === 'en' ? 'Custom device names saved' : 'บันทึกชื่ออุปกรณ์เรียบร้อย');
+                    await fetchDevices();
+                } else {
+                    showToast(data.error || 'Failed to save custom names', true);
+                }
+            } catch (e) {
+                showToast('Network error saving custom names', true);
+            }
+        });
     }
 
     // ==========================================
     // --- TEMPLATE & ADMIN LOGIC ---
     // ==========================================
 
-    // --- Fetch Templates ---
     async function fetchTemplates() {
         try {
             const res = await fetch('/api/templates');
@@ -505,7 +765,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- Save/Update Template ---
     async function saveTemplate(templateData) {
         const id = templateData.id;
         const url = id ? `/api/templates/${id}` : '/api/templates';
@@ -533,7 +792,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- Delete Template ---
     async function deleteTemplate(id) {
         try {
             const res = await fetch(`/api/templates/${id}`, {
@@ -554,7 +812,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- Apply Template ---
     async function applyTemplate(id) {
         try {
             const res = await fetch(`/api/templates/${id}/apply`, {
@@ -576,30 +833,106 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // --- Admin Logs ---
+    async function fetchLogs() {
+        if (!isAdminMode) return;
+        try {
+            const res = await fetch('/api/logs', {
+                headers: { 'X-Admin-PIN': adminPin }
+            });
+            if (res.ok) {
+                const logs = await res.json();
+                renderLogs(logs);
+            }
+        } catch (e) {
+            console.error('Failed to fetch logs:', e);
+        }
+    }
+
+    function renderLogs(logs) {
+        const container = document.getElementById('activity-log-container');
+        if (!container) return;
+        
+        if (!logs || logs.length === 0) {
+            container.innerHTML = `
+                <div class="empty-state text-muted" data-i18n="admin_settings.log_empty">
+                    ${currentLanguage === 'en' ? 'No activity recorded yet.' : 'ยังไม่มีบันทึกประวัติการใช้งาน'}
+                </div>
+            `;
+            return;
+        }
+        
+        container.innerHTML = logs.map(log => `
+            <div class="log-entry">
+                <span class="log-timestamp">${log.timestamp}</span>
+                <span class="log-type-badge log-type-${log.action}">${log.action}</span>
+                <span class="log-description">${log.details}</span>
+            </div>
+        `).join('');
+    }
+
+    const btnClearLog = document.getElementById('btn-clear-log');
+    if (btnClearLog) {
+        btnClearLog.addEventListener('click', async () => {
+            const confirmMsg = currentLanguage === 'en' 
+                ? 'Are you sure you want to clear all logs?' 
+                : 'คุณแน่ใจหรือไม่ที่จะลบประวัติการใช้งานทั้งหมด?';
+            if (confirm(confirmMsg)) {
+                try {
+                    const res = await fetch('/api/logs', {
+                        method: 'DELETE',
+                        headers: { 'X-Admin-PIN': adminPin }
+                    });
+                    if (res.ok) {
+                        showToast(currentLanguage === 'en' ? 'Activity log cleared' : 'ลบประวัติการใช้งานเรียบร้อย');
+                        fetchLogs();
+                    }
+                } catch (e) {
+                    showToast('Failed to clear logs', true);
+                }
+            }
+        });
+    }
+
     // --- Admin Mode UI Management ---
     function updateAdminUI() {
         const btnLock = document.getElementById('btn-admin-lock');
         const btnNew = document.getElementById('btn-new-template');
         const btnQuickSave = document.getElementById('btn-quick-save');
         const adminPanel = document.getElementById('admin-settings-panel');
+        const btnSaveLabels = document.getElementById('btn-save-labels');
+        const btnExport = document.getElementById('btn-export-templates');
+        const btnImportLabel = document.getElementById('btn-import-label');
         
         if (isAdminMode) {
-            btnLock.textContent = translations[currentLanguage]["templates.exit_admin"];
-            btnLock.classList.remove('outline');
-            btnLock.classList.add('danger');
-            btnNew.classList.remove('hidden');
+            if (btnLock) {
+                btnLock.textContent = translations[currentLanguage]["templates.exit_admin"];
+                btnLock.classList.remove('outline');
+                btnLock.classList.add('danger');
+            }
+            if (btnNew) btnNew.classList.remove('hidden');
             if (btnQuickSave) btnQuickSave.style.display = 'block';
             if (adminPanel) adminPanel.classList.remove('hidden');
+            if (btnSaveLabels) btnSaveLabels.classList.remove('hidden');
+            if (btnExport) btnExport.classList.remove('hidden');
+            if (btnImportLabel) btnImportLabel.classList.remove('hidden');
+            fetchLogs();
         } else {
-            btnLock.textContent = translations[currentLanguage]["templates.enter_admin"];
-            btnLock.classList.add('outline');
-            btnLock.classList.remove('danger');
-            btnNew.classList.add('hidden');
+            if (btnLock) {
+                btnLock.textContent = translations[currentLanguage]["templates.enter_admin"];
+                btnLock.classList.add('outline');
+                btnLock.classList.remove('danger');
+            }
+            if (btnNew) btnNew.classList.add('hidden');
             if (btnQuickSave) btnQuickSave.style.display = 'none';
             if (adminPanel) adminPanel.classList.add('hidden');
+            if (btnSaveLabels) btnSaveLabels.classList.add('hidden');
+            if (btnExport) btnExport.classList.add('hidden');
+            if (btnImportLabel) btnImportLabel.classList.add('hidden');
             adminPin = "";
         }
         renderTemplateGrid();
+        renderDevicesTable();
     }
 
     function toggleAdminMode() {
@@ -632,18 +965,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const pinErrorMsg = document.getElementById('pin-error-msg');
     
     function openPinModal() {
-        pinInput.value = '';
-        pinErrorMsg.classList.add('hidden');
-        pinModal.classList.remove('hidden');
-        pinInput.focus();
+        if (pinInput) pinInput.value = '';
+        if (pinErrorMsg) pinErrorMsg.classList.add('hidden');
+        if (pinModal) pinModal.classList.remove('hidden');
+        if (pinInput) pinInput.focus();
     }
     
     function closePinModal() {
-        pinModal.classList.add('hidden');
+        if (pinModal) pinModal.classList.add('hidden');
     }
     
     async function verifyPin() {
-        const pin = pinInput.value;
+        const pin = pinInput ? pinInput.value : '';
         if (!pin || pin.length < 4) return;
         
         try {
@@ -660,21 +993,31 @@ document.addEventListener('DOMContentLoaded', () => {
                 resetAdminTimeout();
                 showToast(translations[currentLanguage]["toast_pin_success"]);
             } else {
-                pinErrorMsg.classList.remove('hidden');
-                pinInput.value = '';
-                pinInput.focus();
+                if (pinErrorMsg) pinErrorMsg.classList.remove('hidden');
+                if (pinInput) {
+                    pinInput.value = '';
+                    pinInput.focus();
+                }
             }
         } catch (e) {
             showToast('Network error verifying PIN', true);
         }
     }
     
-    document.getElementById('btn-submit-pin').addEventListener('click', verifyPin);
-    document.getElementById('btn-cancel-pin').addEventListener('click', closePinModal);
-    pinInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') verifyPin();
-    });
-    document.getElementById('btn-admin-lock').addEventListener('click', toggleAdminMode);
+    const btnSubmitPin = document.getElementById('btn-submit-pin');
+    if (btnSubmitPin) btnSubmitPin.addEventListener('click', verifyPin);
+    
+    const btnCancelPin = document.getElementById('btn-cancel-pin');
+    if (btnCancelPin) btnCancelPin.addEventListener('click', closePinModal);
+    
+    if (pinInput) {
+        pinInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') verifyPin();
+        });
+    }
+    
+    const btnAdminLock = document.getElementById('btn-admin-lock');
+    if (btnAdminLock) btnAdminLock.addEventListener('click', toggleAdminMode);
 
     // --- Render Template Grid ---
     function renderTemplateGrid() {
@@ -726,7 +1069,6 @@ document.addEventListener('DOMContentLoaded', () => {
             grid.appendChild(card);
         });
         
-        // Listeners for edit & delete buttons
         if (isAdminMode) {
             document.querySelectorAll('.btn-edit-tpl').forEach(btn => {
                 btn.addEventListener('click', (e) => {
@@ -761,6 +1103,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let confirmCallback = null;
     
     function openConfirmModal(template) {
+        if (!confirmModal || !confirmTitle || !confirmMsg || !confirmSummary) return;
         confirmTitle.textContent = `${translations[currentLanguage]["modal_confirm.title"]}: ${template.name}`;
         confirmMsg.textContent = translations[currentLanguage]["modal_confirm.subtitle"];
         
@@ -770,11 +1113,11 @@ document.addEventListener('DOMContentLoaded', () => {
         
         template.routing_map.forEach(item => {
             const enc = encoders.find(e => e.id === item.encoder_id);
-            const encName = enc ? enc.name : `Input ${item.encoder_id}`;
+            const encName = enc ? (enc.display_name || enc.name) : `Input ${item.encoder_id}`;
             
             const decNames = item.decoder_ids.map(decId => {
                 const dec = decoders.find(d => d.id === decId);
-                return dec ? dec.name : `Output ${decId}`;
+                return dec ? (dec.display_name || dec.name) : `Output ${decId}`;
             }).join(', ');
             
             const row = document.createElement('div');
@@ -793,65 +1136,79 @@ document.addEventListener('DOMContentLoaded', () => {
         confirmModal.classList.remove('hidden');
     }
     
-    document.getElementById('btn-submit-confirm').addEventListener('click', () => {
-        if (confirmCallback) confirmCallback();
-        confirmModal.classList.add('hidden');
-    });
+    const btnSubmitConfirm = document.getElementById('btn-submit-confirm');
+    if (btnSubmitConfirm) {
+        btnSubmitConfirm.addEventListener('click', () => {
+            if (confirmCallback) confirmCallback();
+            if (confirmModal) confirmModal.classList.add('hidden');
+        });
+    }
     
-    document.getElementById('btn-cancel-confirm').addEventListener('click', () => {
-        confirmModal.classList.add('hidden');
-    });
+    const btnCancelConfirm = document.getElementById('btn-cancel-confirm');
+    if (btnCancelConfirm) {
+        btnCancelConfirm.addEventListener('click', () => {
+            if (confirmModal) confirmModal.classList.add('hidden');
+        });
+    }
 
     // --- Template Form Modals & Interactive Routing Editor ---
     const templateModal = document.getElementById('template-modal');
     const templateForm = document.getElementById('template-form');
     const routingRowsContainer = document.getElementById('routing-rows-container');
     
-    document.getElementById('btn-new-template').addEventListener('click', () => openTemplateModal());
-    document.getElementById('btn-cancel-template').addEventListener('click', closeTemplateModal);
-    document.getElementById('btn-add-routing-row').addEventListener('click', () => addRoutingRow());
+    const btnNewTemplate = document.getElementById('btn-new-template');
+    if (btnNewTemplate) btnNewTemplate.addEventListener('click', () => openTemplateModal());
     
-    templateForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        
-        const id = document.getElementById('template-id').value;
-        const name = document.getElementById('template-name').value;
-        const desc = document.getElementById('template-desc').value;
-        const color = document.getElementById('template-color').value;
-        const icon = document.getElementById('template-icon').value;
-        
-        const routing_map = [];
-        const rows = routingRowsContainer.querySelectorAll('.routing-row');
-        
-        rows.forEach(row => {
-            const encoderSelect = row.querySelector('.encoder-select');
-            const encId = encoderSelect.value;
-            const checkedDecs = Array.from(row.querySelectorAll('.dropdown-item input:checked')).map(cb => cb.value);
+    const btnCancelTemplate = document.getElementById('btn-cancel-template');
+    if (btnCancelTemplate) btnCancelTemplate.addEventListener('click', closeTemplateModal);
+    
+    const btnAddRoutingRow = document.getElementById('btn-add-routing-row');
+    if (btnAddRoutingRow) btnAddRoutingRow.addEventListener('click', () => addRoutingRow());
+    
+    if (templateForm) {
+        templateForm.addEventListener('submit', (e) => {
+            e.preventDefault();
             
-            if (encId && checkedDecs.length > 0) {
-                routing_map.push({
-                    encoder_id: encId,
-                    decoder_ids: checkedDecs
-                });
+            const id = document.getElementById('template-id').value;
+            const name = document.getElementById('template-name').value;
+            const desc = document.getElementById('template-desc').value;
+            const color = document.getElementById('template-color').value;
+            const icon = document.getElementById('template-icon').value;
+            
+            const routing_map = [];
+            const rows = routingRowsContainer.querySelectorAll('.routing-row');
+            
+            rows.forEach(row => {
+                const encoderSelect = row.querySelector('.encoder-select');
+                const encId = encoderSelect.value;
+                const checkedDecs = Array.from(row.querySelectorAll('.dropdown-item input:checked')).map(cb => cb.value);
+                
+                if (encId && checkedDecs.length > 0) {
+                    routing_map.push({
+                        encoder_id: encId,
+                        decoder_ids: checkedDecs
+                    });
+                }
+            });
+            
+            if (routing_map.length === 0) {
+                showToast(translations[currentLanguage]["err_no_routes"], true);
+                return;
             }
+            
+            saveTemplate({
+                id: id ? parseInt(id) : null,
+                name: name,
+                description: desc,
+                color: color,
+                icon: icon,
+                routing_map: routing_map
+            });
         });
-        
-        if (routing_map.length === 0) {
-            showToast(translations[currentLanguage]["err_no_routes"], true);
-            return;
-        }
-        
-        saveTemplate({
-            id: id ? parseInt(id) : null,
-            name: name,
-            description: desc,
-            color: color,
-            icon: icon,
-            routing_map: routing_map
-        });
-    });
+    }
     
     function openTemplateModal(tpl = null) {
+        if (!templateModal || !templateForm || !routingRowsContainer) return;
         templateForm.reset();
         document.getElementById('template-id').value = tpl ? tpl.id : '';
         
@@ -881,10 +1238,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     function closeTemplateModal() {
-        templateModal.classList.add('hidden');
+        if (templateModal) templateModal.classList.add('hidden');
     }
     
     function addRoutingRow(selectedEncId = '', selectedDecIds = []) {
+        if (!routingRowsContainer) return;
+        
         const encoders = devices.filter(d => d.role === 'encoder');
         const decoders = devices.filter(d => d.role === 'decoder');
         
@@ -897,13 +1256,13 @@ document.addEventListener('DOMContentLoaded', () => {
         row.className = 'routing-row';
         
         let encOptions = encoders.map(enc => 
-            `<option value="${enc.id}" ${enc.id === selectedEncId ? 'selected' : ''}>${enc.name} (ID: ${enc.id})</option>`
+            `<option value="${enc.id}" ${enc.id === selectedEncId ? 'selected' : ''}>${enc.display_name || enc.name} (ID: ${enc.id})</option>`
         ).join('');
         
         let decItems = decoders.map(dec => `
             <div class="dropdown-item" data-id="${dec.id}">
                 <input type="checkbox" value="${dec.id}" id="dec-cb-${Math.random().toString(36).substr(2, 9)}" ${selectedDecIds.includes(dec.id) ? 'checked' : ''} style="width:auto; margin-right:8px;">
-                <label style="display:inline; margin:0; cursor:pointer;">${dec.name}</label>
+                <label style="display:inline; margin:0; cursor:pointer;">${dec.display_name || dec.name}</label>
             </div>
         `).join('');
         
@@ -936,7 +1295,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } else if (checked.length === 1) {
                 const decId = checked[0].value;
                 const dec = decoders.find(d => d.id === decId);
-                label.textContent = dec ? dec.name : `Decoder ${decId}`;
+                label.textContent = dec ? (dec.display_name || dec.name) : `Decoder ${decId}`;
             } else {
                 label.textContent = currentLanguage === 'en' 
                     ? `${checked.length} Outputs Selected` 
@@ -1033,7 +1392,10 @@ document.addEventListener('DOMContentLoaded', () => {
         adminConfigForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const sysLangSelect = document.getElementById('config-sys-lang');
-            const targetLang = sysLangSelect.value;
+            const vaveIpInput = document.getElementById('config-vave-ip');
+            
+            const targetLang = sysLangSelect ? sysLangSelect.value : 'th';
+            const vaveIp = vaveIpInput ? vaveIpInput.value.trim() : '';
             
             try {
                 const res = await fetch('/api/config', {
@@ -1042,14 +1404,17 @@ document.addEventListener('DOMContentLoaded', () => {
                         'Content-Type': 'application/json',
                         'X-Admin-PIN': adminPin
                     },
-                    body: JSON.stringify({ system_language: targetLang })
+                    body: JSON.stringify({
+                        system_language: targetLang,
+                        vave_server_ip: vaveIp
+                    })
                 });
                 
                 const data = await res.json();
                 if (res.ok) {
                     showToast(translations[currentLanguage]["toast_config_update"]);
-                    // Update client lang if it matches default system configuration update
                     changeLanguage(targetLang);
+                    updateServerStatus();
                 } else {
                     showToast(data.error || 'Failed to update config', true);
                 }
@@ -1066,8 +1431,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const oldPinInput = document.getElementById('pin-old');
             const newPinInput = document.getElementById('pin-new');
             
-            const oldPin = oldPinInput.value;
-            const newPin = newPinInput.value;
+            const oldPin = oldPinInput ? oldPinInput.value : '';
+            const newPin = newPinInput ? newPinInput.value : '';
             
             if (oldPin !== adminPin) {
                 showToast(currentLanguage === 'en' ? 'Incorrect current PIN' : 'รหัส PIN เดิมไม่ถูกต้อง', true);
@@ -1084,14 +1449,137 @@ document.addEventListener('DOMContentLoaded', () => {
                 const data = await res.json();
                 if (res.ok) {
                     showToast(translations[currentLanguage]["toast_pin_update"]);
-                    adminPin = newPin; // update working local cache
-                    oldPinInput.value = '';
-                    newPinInput.value = '';
+                    adminPin = newPin;
+                    if (oldPinInput) oldPinInput.value = '';
+                    if (newPinInput) newPinInput.value = '';
                 } else {
                     showToast(data.error || 'Failed to change PIN', true);
                 }
             } catch (e) {
                 showToast('Network error changing PIN', true);
+            }
+        });
+    }
+
+    // --- Template Export Feature ---
+    const btnExport = document.getElementById('btn-export-templates');
+    if (btnExport) {
+        btnExport.addEventListener('click', async () => {
+            try {
+                const res = await fetch('/api/templates/export', {
+                    headers: { 'X-Admin-PIN': adminPin }
+                });
+                if (res.ok) {
+                    const blob = await res.blob();
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'metrix_templates.json';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    window.URL.revokeObjectURL(url);
+                    showToast(currentLanguage === 'en' ? 'Templates exported' : 'ส่งออกเทมเพลตเรียบร้อย');
+                } else {
+                    showToast('Failed to export templates', true);
+                }
+            } catch (e) {
+                showToast('Network error during export', true);
+            }
+        });
+    }
+
+    // --- Template Import Feature ---
+    const importFile = document.getElementById('btn-import-file');
+    if (importFile) {
+        importFile.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            const confirmMsg = currentLanguage === 'en'
+                ? 'Do you want to overwrite templates with identical names?'
+                : 'คุณต้องการบันทึกทับเทมเพลตที่มีชื่อเดียวกันหรือไม่?';
+            const overwrite = confirm(confirmMsg);
+            
+            const formData = new FormData();
+            formData.append('file', file);
+            
+            try {
+                const res = await fetch(`/api/templates/import?overwrite=${overwrite}`, {
+                    method: 'POST',
+                    headers: { 'X-Admin-PIN': adminPin },
+                    body: formData
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    showToast(currentLanguage === 'en' 
+                        ? `Imported ${data.imported} preset(s) successfully` 
+                        : `นำเข้าพรีเซ็ตสำเร็จ ${data.imported} รายการ`);
+                    await fetchTemplates();
+                } else {
+                    showToast(data.error || 'Failed to import templates', true);
+                }
+            } catch (err) {
+                showToast('Network error during import', true);
+            }
+            importFile.value = '';
+        });
+    }
+
+    // --- Network Scanner ---
+    const btnScan = document.getElementById('btn-scan');
+    if (btnScan) {
+        btnScan.addEventListener('click', async () => {
+            const subnetInput = document.getElementById('scan-subnet');
+            const subnet = subnetInput ? subnetInput.value.trim() : '192.168.1.0/24';
+            const scanStatus = document.getElementById('scan-status');
+            const resultsList = document.getElementById('scan-results-list');
+            
+            if (scanStatus) {
+                scanStatus.textContent = currentLanguage === 'en' ? 'Scanning network...' : 'กำลังแสกนเครือข่าย...';
+                scanStatus.classList.remove('error-text');
+            }
+            
+            if (resultsList) {
+                resultsList.innerHTML = `<li class="empty-state">${currentLanguage === 'en' ? 'Scanning...' : 'กำลังแสกน...'}</li>`;
+            }
+            
+            try {
+                const res = await fetch('/api/scan', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ subnet: subnet })
+                });
+                if (res.ok) {
+                    const found = await res.json();
+                    if (scanStatus) {
+                        scanStatus.textContent = currentLanguage === 'en' 
+                            ? `Scan complete. Found ${found.length} device(s).` 
+                            : `แสกนเสร็จสิ้น พบอุปกรณ์ ${found.length} รายการ`;
+                    }
+                    if (resultsList) {
+                        if (found.length === 0) {
+                            resultsList.innerHTML = `<li class="empty-state">${currentLanguage === 'en' ? 'No VAVE devices discovered.' : 'ไม่พบอุปกรณ์ VAVE'}</li>`;
+                        } else {
+                            resultsList.innerHTML = found.map(dev => `
+                                <li>
+                                    <strong>${dev.name || 'VAVE Device'}</strong>
+                                    <span class="text-muted">IP: ${dev.ip} (${dev.role.toUpperCase()})</span>
+                                </li>
+                            `).join('');
+                        }
+                    }
+                } else {
+                    if (scanStatus) {
+                        scanStatus.textContent = currentLanguage === 'en' ? 'Scan failed.' : 'แสกนไม่สำเร็จ';
+                        scanStatus.classList.add('error-text');
+                    }
+                }
+            } catch (e) {
+                if (scanStatus) {
+                    scanStatus.textContent = currentLanguage === 'en' ? 'Error during network scan.' : 'เกิดข้อผิดพลาดในการแสกน';
+                    scanStatus.classList.add('error-text');
+                }
             }
         });
     }
@@ -1103,20 +1591,22 @@ document.addEventListener('DOMContentLoaded', () => {
             if (res.ok) {
                 const config = await res.json();
                 const sysLang = config.system_language || 'th';
+                const vaveIp = config.vave_server_ip || '192.168.2.10';
                 
-                // Populate default select dropdown value in settings
                 const sysLangSelect = document.getElementById('config-sys-lang');
                 if (sysLangSelect) sysLangSelect.value = sysLang;
                 
-                // Choose language: localStorage takes precedence, then fallback to backend system language default
+                const vaveIpInput = document.getElementById('config-vave-ip');
+                if (vaveIpInput) vaveIpInput.value = vaveIp;
+                
                 const localLang = localStorage.getItem('metrix_language');
                 const targetLang = localLang ? localLang : sysLang;
                 
                 applyLanguage(targetLang);
+                updateServerStatus();
             }
         } catch (e) {
             console.error('Failed to load system config:', e);
-            // Default fallback
             applyLanguage('th');
         }
     }
@@ -1124,4 +1614,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Init ---
     fetchDevices();
     loadSystemConfig();
+
+    // Auto-refresh interval (every 15 seconds)
+    setInterval(() => {
+        fetchDevices();
+        updateServerStatus();
+    }, 15000);
 });

@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VAVE AVIP Matrix Control</title>
-    <link rel="stylesheet" href="/static/style.css?v=1.1">
+    <meta name="description" content="VAVE AV over IP Matrix Routing Controller by SD PLUS GROUP">
+    <link rel="stylesheet" href="/static/style.css?v=2.0">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -21,9 +22,18 @@
                 </div>
                 <p data-i18n="sidebar.subtitle">AV over IP Control</p>
             </div>
+
+            <!-- Connection Status Badge -->
+            <div class="connection-status" id="connection-status">
+                <span class="status-indicator" id="status-dot"></span>
+                <span id="status-label" data-i18n="status.checking">กำลังตรวจสอบ...</span>
+                <span id="status-ip" class="status-ip"></span>
+            </div>
+
             <nav>
                 <ul class="nav-links">
-                    <li><button class="nav-btn active" data-target="matrix-view" data-i18n="nav.matrix">Matrix Router</button></li>
+                    <li><button class="nav-btn active" data-target="dashboard-view" data-i18n="nav.dashboard">Dashboard</button></li>
+                    <li><button class="nav-btn" data-target="matrix-view" data-i18n="nav.matrix">Matrix Router</button></li>
                     <li><button class="nav-btn" data-target="template-view" data-i18n="nav.templates">Routing Templates</button></li>
                     <li><button class="nav-btn" data-target="setup-view" data-i18n="nav.setup">Device Setup</button></li>
                     <li><button class="nav-btn" data-target="scanner-view" data-i18n="nav.scanner">Network Scanner</button></li>
@@ -36,8 +46,65 @@
         </aside>
 
         <main class="content">
+
+            <!-- ======================================== -->
+            <!-- Dashboard / Rack View -->
+            <!-- ======================================== -->
+            <section id="dashboard-view" class="view-section active">
+                <header class="flex-between">
+                    <div>
+                        <h1 data-i18n="dashboard.title">Dashboard</h1>
+                        <p data-i18n="dashboard.subtitle">ภาพรวมการเชื่อมต่อสัญญาณทั้งหมด (Live)</p>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:1rem;">
+                        <span class="last-updated-badge" id="last-updated-badge"></span>
+                        <button id="btn-refresh-dashboard" class="btn outline small" data-i18n="dashboard.refresh">🔄 Refresh</button>
+                    </div>
+                </header>
+
+                <div class="dashboard-grid glass-panel">
+                    <div id="rack-view-container">
+                        <div class="empty-state" data-i18n="dashboard.loading">กำลังโหลดข้อมูลอุปกรณ์...</div>
+                    </div>
+                </div>
+
+                <!-- Quick Stats -->
+                <div class="stats-row">
+                    <div class="stat-card glass-panel">
+                        <div class="stat-icon">📡</div>
+                        <div class="stat-body">
+                            <div class="stat-value" id="stat-encoders">—</div>
+                            <div class="stat-label" data-i18n="dashboard.stat_inputs">Inputs (Encoders)</div>
+                        </div>
+                    </div>
+                    <div class="stat-card glass-panel">
+                        <div class="stat-icon">🖥️</div>
+                        <div class="stat-body">
+                            <div class="stat-value" id="stat-decoders">—</div>
+                            <div class="stat-label" data-i18n="dashboard.stat_outputs">Outputs (Decoders)</div>
+                        </div>
+                    </div>
+                    <div class="stat-card glass-panel">
+                        <div class="stat-icon">📋</div>
+                        <div class="stat-body">
+                            <div class="stat-value" id="stat-templates">—</div>
+                            <div class="stat-label" data-i18n="dashboard.stat_templates">Templates</div>
+                        </div>
+                    </div>
+                    <div class="stat-card glass-panel">
+                        <div class="stat-icon">🔗</div>
+                        <div class="stat-body">
+                            <div class="stat-value" id="stat-active-routes">—</div>
+                            <div class="stat-label" data-i18n="dashboard.stat_routes">Active Routes</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ======================================== -->
             <!-- Matrix Router View -->
-            <section id="matrix-view" class="view-section active">
+            <!-- ======================================== -->
+            <section id="matrix-view" class="view-section">
                 <header>
                     <h1 data-i18n="matrix.title">AV Matrix Switcher</h1>
                     <p data-i18n="matrix.subtitle">Route Encoders (Inputs) to Decoders (Outputs)</p>
@@ -71,13 +138,16 @@
                         </div>
                         <div class="panel-footer matrix-footer-actions">
                             <button id="btn-apply-route" class="btn primary" style="flex: 2;" disabled data-i18n="matrix.apply_switch">Apply Route Switch</button>
-                            <button id="btn-quick-save" class="btn outline" style="flex: 1;" title="Save current routing state as a new template" data-i18n="matrix.quick_save">💾 Quick Save</button>
+                            <button id="btn-blackout-selected" class="btn danger-btn" style="flex: 1;" data-i18n="matrix.blackout_selected">🚫 Blackout</button>
+                            <button id="btn-quick-save" class="btn outline" style="flex: 1; display:none;" data-i18n="matrix.quick_save">💾 Quick Save</button>
                         </div>
                     </div>
                 </div>
             </section>
 
+            <!-- ======================================== -->
             <!-- Templates View -->
+            <!-- ======================================== -->
             <section id="template-view" class="view-section">
                 <header class="flex-between">
                     <div>
@@ -87,55 +157,43 @@
                     <div class="header-actions">
                         <button id="btn-admin-lock" class="btn outline small" data-i18n="templates.enter_admin">🔒 Enter Admin Mode</button>
                         <button id="btn-new-template" class="btn primary small hidden" data-i18n="templates.new_preset">➕ New Template</button>
+                        <button id="btn-export-templates" class="btn outline small hidden" data-i18n="templates.export">📤 Export</button>
+                        <label id="btn-import-label" class="btn outline small hidden" data-i18n="templates.import" style="cursor:pointer; margin:0;">
+                            📥 Import
+                            <input type="file" id="btn-import-file" accept=".json" style="display:none;">
+                        </label>
                     </div>
                 </header>
 
                 <div class="templates-container glass-panel">
                     <div id="templates-grid" class="templates-grid">
-                        <!-- Populated via JS -->
                         <div class="empty-state" data-i18n="templates.empty_state">No templates configured yet. Click "New Template" in Admin Mode.</div>
                     </div>
                 </div>
             </section>
 
+            <!-- ======================================== -->
             <!-- Device Setup View -->
+            <!-- ======================================== -->
             <section id="setup-view" class="view-section">
                 <header>
                     <h1 data-i18n="setup.title">Device Setup</h1>
                     <p data-i18n="setup.subtitle">Configure IP addresses, names, and roles.</p>
                 </header>
                 
-                <div class="setup-form glass-panel">
-                    <h3 data-i18n="setup.add_device_title">Add/Update Device</h3>
-                    <form id="device-form">
-                        <div class="form-group">
-                            <label data-i18n="setup.ip_label">IP Address</label>
-                            <input type="text" id="dev-ip" placeholder="e.g. 192.168.1.10" required>
-                        </div>
-                        <div class="form-group">
-                            <label data-i18n="setup.name_label">Device Name</label>
-                            <input type="text" id="dev-name" placeholder="e.g. Input PC 1" required>
-                        </div>
-                        <div class="form-group">
-                            <label data-i18n="setup.role_label">Role</label>
-                            <select id="dev-role">
-                                <option value="encoder" data-i18n="setup.role_encoder">Encoder (Input)</option>
-                                <option value="decoder" data-i18n="setup.role_decoder">Decoder (Output)</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="btn primary" data-i18n="setup.save_device_btn">Save Device</button>
-                    </form>
-                </div>
-
+                <!-- Configured Devices with Custom Labels -->
                 <div class="configured-devices glass-panel">
-                    <h3 data-i18n="setup.configured_title">Configured Devices</h3>
+                    <div class="flex-between" style="margin-bottom:1.5rem;">
+                        <h3 style="margin:0; border:none; padding:0;" data-i18n="setup.configured_title">Configured Devices</h3>
+                        <button id="btn-save-labels" class="btn primary small hidden" data-i18n="setup.save_labels_btn">💾 Save Custom Names</button>
+                    </div>
                     <table id="devices-table">
                         <thead>
                             <tr>
-                                <th data-i18n="setup.col_name">Name</th>
+                                <th data-i18n="setup.col_name">Name (from VAVE)</th>
+                                <th data-i18n="setup.col_custom_name">Custom Display Name</th>
                                 <th data-i18n="setup.col_ip">IP Address</th>
                                 <th data-i18n="setup.col_role">Role</th>
-                                <th data-i18n="setup.col_action">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -144,36 +202,57 @@
                     </table>
                 </div>
 
-                <!-- Admin General Settings Panel (Phase 4) -->
+                <!-- Admin General Settings Panel -->
                 <div class="admin-settings-panel glass-panel hidden" id="admin-settings-panel">
                     <h3 data-i18n="admin_settings.title">General Admin Settings</h3>
                     <form id="admin-config-form" style="margin-bottom: 2rem;">
-                        <div class="form-group">
-                            <label data-i18n="admin_settings.default_lang">Default System Language</label>
-                            <select id="config-sys-lang">
-                                <option value="th">ไทย (Thai)</option>
-                                <option value="en">English</option>
-                            </select>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label data-i18n="admin_settings.default_lang">Default System Language</label>
+                                <select id="config-sys-lang">
+                                    <option value="th">ไทย (Thai)</option>
+                                    <option value="en">English</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label data-i18n="admin_settings.vave_server_ip">VAVE Server IP Address</label>
+                                <input type="text" id="config-vave-ip" placeholder="e.g. 192.168.2.10">
+                            </div>
                         </div>
                         <button type="submit" class="btn primary" data-i18n="admin_settings.save_btn">Save Settings</button>
                     </form>
                     
                     <h3 data-i18n="admin_settings.change_pin_title">Change Admin PIN</h3>
-                    <form id="change-pin-form">
-                        <div class="form-group">
-                            <label data-i18n="admin_settings.old_pin">Old PIN</label>
-                            <input type="password" id="pin-old" placeholder="••••" maxlength="4" required>
-                        </div>
-                        <div class="form-group">
-                            <label data-i18n="admin_settings.new_pin">New PIN</label>
-                            <input type="password" id="pin-new" placeholder="••••" maxlength="4" required>
+                    <form id="change-pin-form" style="margin-bottom: 2rem;">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label data-i18n="admin_settings.old_pin">Old PIN</label>
+                                <input type="password" id="pin-old" placeholder="••••" maxlength="4" required>
+                            </div>
+                            <div class="form-group">
+                                <label data-i18n="admin_settings.new_pin">New PIN</label>
+                                <input type="password" id="pin-new" placeholder="••••" maxlength="4" required>
+                            </div>
                         </div>
                         <button type="submit" class="btn primary" data-i18n="admin_settings.change_pin_btn">Change PIN</button>
                     </form>
+
+                    <!-- Activity Log -->
+                    <div class="log-section">
+                        <div class="flex-between" style="margin-bottom: 1rem;">
+                            <h3 style="margin:0; border:none; padding:0;" data-i18n="admin_settings.log_title">Activity Log</h3>
+                            <button id="btn-clear-log" class="btn danger-btn small" data-i18n="admin_settings.clear_log">🗑️ Clear Log</button>
+                        </div>
+                        <div id="activity-log-container" class="activity-log-container">
+                            <div class="empty-state text-muted" data-i18n="admin_settings.log_empty">No activity recorded yet.</div>
+                        </div>
+                    </div>
                 </div>
             </section>
 
+            <!-- ======================================== -->
             <!-- Scanner View -->
+            <!-- ======================================== -->
             <section id="scanner-view" class="view-section">
                 <header>
                     <h1 data-i18n="scanner.title">Network Scanner</h1>
@@ -281,7 +360,6 @@
             <h3 id="confirm-title" data-i18n="modal_confirm.title">Apply Template</h3>
             <p id="confirm-msg" class="text-muted" data-i18n="modal_confirm.subtitle">คุณต้องการใช้งานเทมเพลตนี้หรือไม่?</p>
             <div id="confirm-routing-summary" class="confirm-routing-summary" style="margin-top: 1rem; border-top: 1px solid var(--border); padding-top: 1rem;">
-                <!-- Summary of routes will be shown here -->
             </div>
             <div class="modal-actions" style="margin-top: 1.5rem;">
                 <button type="button" id="btn-cancel-confirm" class="btn outline" data-i18n="common.cancel">Cancel</button>
@@ -290,6 +368,6 @@
         </div>
     </div>
 
-    <script src="/static/app.js?v=1.2"></script>
+    <script src="/static/app.js?v=2.0"></script>
 </body>
 </html>

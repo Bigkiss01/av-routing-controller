@@ -162,3 +162,118 @@ def set_config(key, value):
         conn.execute("INSERT OR REPLACE INTO config (key, value) VALUES (?, ?)", (key, str(value)))
         conn.commit()
         return True
+
+# ==========================================
+# --- Activity Log ---
+# ==========================================
+
+def log_activity(action_type, description):
+    """Record an action in the activity log."""
+    with get_db_connection() as conn:
+        conn.execute(
+            "INSERT INTO activity_log (action_type, description) VALUES (?, ?)",
+            (action_type, description)
+        )
+        conn.commit()
+
+def get_activity_log(limit=100):
+    """Retrieve recent activity log entries."""
+    with get_db_connection() as conn:
+        cursor = conn.execute(
+            "SELECT * FROM activity_log ORDER BY timestamp DESC LIMIT ?",
+            (limit,)
+        )
+        return [dict(row) for row in cursor.fetchall()]
+
+def clear_activity_log():
+    """Clear all activity log entries."""
+    with get_db_connection() as conn:
+        conn.execute("DELETE FROM activity_log")
+        conn.commit()
+
+# ==========================================
+# --- Device Labels (Custom Names) ---
+# ==========================================
+
+def get_device_labels():
+    """Get all custom device labels as a dict {device_id: label}."""
+    with get_db_connection() as conn:
+        cursor = conn.execute("SELECT device_id, label FROM device_labels")
+        return {row['device_id']: row['label'] for row in cursor.fetchall()}
+
+def set_device_label(device_id, label):
+    """Set or update a custom label for a device."""
+    with get_db_connection() as conn:
+        conn.execute(
+            "INSERT OR REPLACE INTO device_labels (device_id, label) VALUES (?, ?)",
+            (str(device_id), str(label))
+        )
+        conn.commit()
+        return True
+
+def delete_device_label(device_id):
+    """Remove a custom label for a device (revert to VAVE server name)."""
+    with get_db_connection() as conn:
+        cursor = conn.execute("DELETE FROM device_labels WHERE device_id = ?", (str(device_id),))
+        conn.commit()
+        return cursor.rowcount > 0
+
+def set_device_labels_bulk(labels_dict):
+    """Set multiple labels at once. labels_dict = {device_id: label}"""
+    with get_db_connection() as conn:
+        for device_id, label in labels_dict.items():
+            if label and label.strip():
+                conn.execute(
+                    "INSERT OR REPLACE INTO device_labels (device_id, label) VALUES (?, ?)",
+                    (str(device_id), str(label).strip())
+                )
+            else:
+                # Empty label = delete custom label
+                conn.execute("DELETE FROM device_labels WHERE device_id = ?", (str(device_id),))
+        conn.commit()
+        return True
+
+# ==========================================
+# --- Template Export / Import ---
+# ==========================================
+
+def export_templates():
+    """Export all templates as a list of dicts (ready for JSON serialization)."""
+    templates = get_all_templates()
+    return {
+        "export_version": "1.0",
+        "exported_at": datetime.now().isoformat(),
+        "templates": templates
+    }
+
+def import_templates(import_data, overwrite=False):
+    """Import templates from exported JSON data. Returns (imported_count, skipped_count)."""
+    templates = import_data.get("templates", [])
+    imported = 0
+    skipped = 0
+
+    for tpl in templates:
+        name = tpl.get("name")
+        description = tpl.get("description", "")
+        color = tpl.get("color", "#3b82f6")
+        icon = tpl.get("icon", "🖥️")
+        routing_map = tpl.get("routing_map", [])
+
+        if not name or not routing_map:
+            skipped += 1
+            continue
+
+        if overwrite:
+            # Check if a template with the same name exists and update it
+            with get_db_connection() as conn:
+                cursor = conn.execute("SELECT id FROM templates WHERE name = ?", (name,))
+                existing = cursor.fetchone()
+                if existing:
+                    update_template(existing['id'], name, description, color, icon, routing_map)
+                    imported += 1
+                    continue
+
+        create_template(name, description, color, icon, routing_map)
+        imported += 1
+
+    return imported, skipped
