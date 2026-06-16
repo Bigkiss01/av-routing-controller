@@ -54,6 +54,17 @@ def init_db():
             )
         ''')
         
+        # Custom Devices table
+        conn.execute('''
+            CREATE TABLE IF NOT EXISTS custom_devices (
+                id TEXT PRIMARY KEY,
+                name TEXT NOT NULL,
+                ip TEXT NOT NULL,
+                role TEXT NOT NULL,
+                source_id TEXT DEFAULT '0'
+            )
+        ''')
+        
         # Insert default admin PIN if not set
         cursor = conn.execute("SELECT value FROM config WHERE key = 'admin_pin'")
         if not cursor.fetchone():
@@ -277,3 +288,37 @@ def import_templates(import_data, overwrite=False):
         imported += 1
 
     return imported, skipped
+
+# ==========================================
+# --- Custom Devices (Manually Added) ---
+# ==========================================
+
+def get_custom_devices():
+    """Retrieve all manually registered custom devices."""
+    with get_db_connection() as conn:
+        cursor = conn.execute("SELECT * FROM custom_devices")
+        return [dict(row) for row in cursor.fetchall()]
+
+def save_custom_device(device_id, name, ip, role):
+    """Save or update a custom device registration."""
+    with get_db_connection() as conn:
+        conn.execute(
+            "INSERT OR REPLACE INTO custom_devices (id, name, ip, role) VALUES (?, ?, ?, ?)",
+            (str(device_id), str(name), str(ip), str(role))
+        )
+        conn.commit()
+        return True
+
+def delete_custom_device(device_id):
+    """Delete a custom device registration."""
+    with get_db_connection() as conn:
+        cursor = conn.execute("DELETE FROM custom_devices WHERE id = ?", (str(device_id),))
+        conn.commit()
+        return cursor.rowcount > 0
+
+def update_custom_device_source(device_id, source_id):
+    """Update active routing source for a custom device."""
+    with get_db_connection() as conn:
+        conn.execute("UPDATE custom_devices SET source_id = ? WHERE id = ?", (str(source_id), str(device_id)))
+        conn.commit()
+        return True

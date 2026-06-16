@@ -185,7 +185,10 @@
                 <div class="configured-devices glass-panel">
                     <div class="flex-between" style="margin-bottom:1.5rem;">
                         <h3 style="margin:0; border:none; padding:0;" data-i18n="setup.configured_title">Configured Devices</h3>
-                        <button id="btn-save-labels" class="btn primary small hidden" data-i18n="setup.save_labels_btn">💾 Save Custom Names</button>
+                        <div style="display:flex; gap:0.5rem;">
+                            <button id="btn-add-custom-device" class="btn primary small hidden">➕ Add Custom Device</button>
+                            <button id="btn-save-labels" class="btn primary small hidden" data-i18n="setup.save_labels_btn">💾 Save Custom Names</button>
+                        </div>
                     </div>
                     <table id="devices-table">
                         <thead>
@@ -194,6 +197,7 @@
                                 <th data-i18n="setup.col_custom_name">Custom Display Name</th>
                                 <th data-i18n="setup.col_ip">IP Address</th>
                                 <th data-i18n="setup.col_role">Role</th>
+                                <th data-i18n="setup.col_action">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -333,6 +337,38 @@
                 <div class="modal-actions">
                     <button type="button" id="btn-cancel-template" class="btn outline" data-i18n="common.cancel">Cancel</button>
                     <button type="submit" class="btn primary" data-i18n="common.save">Save Template</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Custom Device Modal -->
+    <div id="add-device-modal" class="modal hidden">
+        <div class="modal-content glass-panel">
+            <h3 id="add-device-modal-title">Add Custom Device</h3>
+            <form id="add-device-form">
+                <div class="form-group">
+                    <label>Device ID</label>
+                    <input type="text" id="add-dev-id" placeholder="e.g. 101, 102" required>
+                </div>
+                <div class="form-group">
+                    <label>Device Name</label>
+                    <input type="text" id="add-dev-name" placeholder="e.g. Decoder 101" required>
+                </div>
+                <div class="form-group">
+                    <label>IP Address</label>
+                    <input type="text" id="add-dev-ip" placeholder="e.g. 192.168.1.101" required>
+                </div>
+                <div class="form-group">
+                    <label>Role</label>
+                    <select id="add-dev-role" required>
+                        <option value="encoder">Encoder (Input)</option>
+                        <option value="decoder">Decoder (Output)</option>
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" id="btn-cancel-add-device" class="btn outline">Cancel</button>
+                    <button type="submit" class="btn primary">Save Device</button>
                 </div>
             </form>
         </div>

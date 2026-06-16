@@ -21,24 +21,72 @@ def index():
 
 @app.route('/api/devices', methods=['GET'])
 def get_devices():
-    """Return live list of devices from VAVE Control Server with custom labels merged."""
+    """Return live list of devices from VAVE Control Server merged with custom devices."""
     devices = fetch_devices_from_server()
+    
+    # Fetch manually registered custom devices
+    custom_devs = template_manager.get_custom_devices()
+    
+    # Merge custom devices, marking them with is_custom = True
+    existing_ids = {d['id'] for d in devices}
+    existing_ips = {d['ip'] for d in devices}
+    
+    for cd in custom_devs:
+        if cd['id'] not in existing_ids and cd['ip'] not in existing_ips:
+            cd['is_custom'] = True
+            devices.append(cd)
+            
     labels = template_manager.get_device_labels()
     # Merge custom labels into device list
     for dev in devices:
+        if dev.get('is_custom'):
+            dev['is_custom'] = True
+        else:
+            dev['is_custom'] = False
+            
         if dev['id'] in labels:
             dev['display_name'] = labels[dev['id']]
         else:
             dev['display_name'] = dev['name']
+            
     return jsonify(devices)
 
 @app.route('/api/devices', methods=['POST'])
 def save_device():
-    return jsonify({"error": "Devices are managed by VAVE Control Server"}), 403
+    """Add or update a manually registered custom device. Requires Admin PIN."""
+    pin = request.headers.get('X-Admin-PIN')
+    if not template_manager.verify_admin_pin(pin):
+        return jsonify({"error": "Unauthorized: Invalid PIN"}), 401
+        
+    data = request.json
+    dev_id = data.get('id')
+    name = data.get('name')
+    ip = data.get('ip')
+    role = data.get('role')
+    
+    if not dev_id or not name or not ip or not role:
+        return jsonify({"error": "Missing required fields: id, name, ip, role"}), 400
+        
+    if role not in ['encoder', 'decoder']:
+        return jsonify({"error": "Role must be 'encoder' or 'decoder'"}), 400
+        
+    template_manager.save_custom_device(dev_id, name, ip, role)
+    template_manager.log_activity("DEVICE_ADD", f"Added/Updated custom device: {name} (ID: {dev_id}, IP: {ip}, Role: {role})")
+    return jsonify({"status": "success", "message": f"Custom device {name} saved successfully"})
 
-@app.route('/api/devices/<ip>', methods=['DELETE'])
-def delete_device(ip):
-    return jsonify({"error": "Devices are managed by VAVE Control Server"}), 403
+@app.route('/api/devices/<device_id>', methods=['DELETE'])
+def delete_device(device_id):
+    """Delete a manually registered custom device. Requires Admin PIN."""
+    pin = request.headers.get('X-Admin-PIN')
+    if not template_manager.verify_admin_pin(pin):
+        return jsonify({"error": "Unauthorized: Invalid PIN"}), 401
+        
+    success = template_manager.delete_custom_device(device_id)
+    if success:
+        template_manager.log_activity("DEVICE_DELETE", f"Deleted custom device ID: {device_id}")
+        return jsonify({"status": "success", "message": f"Custom device {device_id} deleted successfully"})
+    else:
+        return jsonify({"error": "Device not found or is managed by VAVE Control Server"}), 404
 
 @app.route('/api/devices/labels', methods=['GET'])
 def get_device_labels():
@@ -87,6 +135,9 @@ def route_video():
     success = send_switch_command(encoder_id, decoder_ids)
     
     if success:
+        # Also update custom devices source in database
+        for d in decoder_ids:
+            template_manager.update_custom_device_source(d, encoder_id)
         # Log activity
         labels = template_manager.get_device_labels()
         enc_name = labels.get(str(encoder_id), f"Encoder {encoder_id}")
@@ -111,6 +162,8 @@ def blackout():
     success = send_blackout_command(decoder_ids)
 
     if success:
+        for d in decoder_ids:
+            template_manager.update_custom_device_source(d, '0')
         labels = template_manager.get_device_labels()
         dec_names = [labels.get(str(d), f"Decoder {d}") for d in decoder_ids]
         template_manager.log_activity(

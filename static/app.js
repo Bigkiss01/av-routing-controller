@@ -454,7 +454,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const emptyText = currentLanguage === 'en' 
                 ? 'No devices synced. Is VAVE Server online?' 
                 : 'ไม่พบอุปกรณ์ที่เชื่อมต่อ ตรวจสอบว่าเครื่องเซิร์ฟเวอร์เปิดอยู่หรือไม่';
-            tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color: var(--text-muted)">${emptyText}</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color: var(--text-muted)">${emptyText}</td></tr>`;
             return;
         }
         
@@ -476,13 +476,52 @@ document.addEventListener('DOMContentLoaded', () => {
                 ? (currentLanguage === 'en' ? 'ENCODER (INPUT)' : 'ตัวส่ง (INPUT)')
                 : (currentLanguage === 'en' ? 'DECODER (OUTPUT)' : 'ตัวรับ (OUTPUT)');
                 
+            let actionHtml = '';
+            if (dev.is_custom) {
+                if (isAdminMode) {
+                    actionHtml = `<td><button class="btn danger-btn small btn-delete-device" data-id="${dev.id}" style="padding:0.3rem 0.6rem; font-size:0.8rem; border-radius:4px; margin:0;">🗑️ Delete</button></td>`;
+                } else {
+                    actionHtml = `<td><span class="text-muted" style="font-size:0.8rem">${currentLanguage === 'en' ? 'Custom Device' : 'อุปกรณ์เสริม'}</span></td>`;
+                }
+            } else {
+                actionHtml = `<td><span class="text-muted" style="font-size:0.8rem">${currentLanguage === 'en' ? 'VAVE Synced' : 'ซิงค์ VAVE'}</span></td>`;
+            }
+                
             tr.innerHTML = `
                 <td><strong>${dev.name}</strong> <span class="text-muted">(ID: ${dev.id})</span></td>
                 ${customNameCol}
                 <td>${dev.ip}</td>
                 <td><span style="color: ${dev.role === 'encoder' ? 'var(--accent)' : 'var(--primary)'}">${roleLabel}</span></td>
+                ${actionHtml}
             `;
             tbody.appendChild(tr);
+        });
+
+        // Add event listeners to delete buttons
+        tbody.querySelectorAll('.btn-delete-device').forEach(btn => {
+            btn.addEventListener('click', async (e) => {
+                const id = btn.dataset.id;
+                const confirmMsg = currentLanguage === 'en' 
+                    ? `Are you sure you want to delete custom device ID: ${id}?` 
+                    : `คุณแน่ใจหรือไม่ที่จะลบอุปกรณ์เสริม ID: ${id}?`;
+                if (confirm(confirmMsg)) {
+                    try {
+                        const res = await fetch(`/api/devices/${id}`, {
+                            method: 'DELETE',
+                            headers: { 'X-Admin-PIN': adminPin }
+                        });
+                        const data = await res.json();
+                        if (res.ok) {
+                            showToast(currentLanguage === 'en' ? 'Device deleted successfully' : 'ลบอุปกรณ์เรียบร้อย');
+                            await fetchDevices();
+                        } else {
+                            showToast(data.error || 'Failed to delete device', true);
+                        }
+                    } catch (e) {
+                        showToast('Network error deleting device', true);
+                    }
+                }
+            });
         });
     }
 
@@ -903,6 +942,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const btnSaveLabels = document.getElementById('btn-save-labels');
         const btnExport = document.getElementById('btn-export-templates');
         const btnImportLabel = document.getElementById('btn-import-label');
+        const btnAddCustomDevice = document.getElementById('btn-add-custom-device');
         
         if (isAdminMode) {
             if (btnLock) {
@@ -916,6 +956,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (btnSaveLabels) btnSaveLabels.classList.remove('hidden');
             if (btnExport) btnExport.classList.remove('hidden');
             if (btnImportLabel) btnImportLabel.classList.remove('hidden');
+            if (btnAddCustomDevice) btnAddCustomDevice.classList.remove('hidden');
             fetchLogs();
         } else {
             if (btnLock) {
@@ -929,6 +970,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (btnSaveLabels) btnSaveLabels.classList.add('hidden');
             if (btnExport) btnExport.classList.add('hidden');
             if (btnImportLabel) btnImportLabel.classList.add('hidden');
+            if (btnAddCustomDevice) btnAddCustomDevice.classList.add('hidden');
             adminPin = "";
         }
         renderTemplateGrid();
@@ -1564,13 +1606,47 @@ document.addEventListener('DOMContentLoaded', () => {
                             resultsList.innerHTML = found.map(dev => {
                                 const roleName = dev.role ? dev.role.toUpperCase() : 'DEVICE';
                                 const portsInfo = dev.ports ? ` - Ports: ${dev.ports.join(', ')}` : '';
+                                
+                                const exists = devices.some(d => d.ip === dev.ip);
+                                let actionBtn = '';
+                                if (exists) {
+                                    actionBtn = `<span class="text-muted" style="font-size: 0.8rem;">✔️ Added</span>`;
+                                } else if (isAdminMode) {
+                                    actionBtn = `<button class="btn primary small btn-add-scanned" data-ip="${dev.ip}" style="padding:0.3rem 0.6rem; font-size:0.8rem; margin:0; border-radius:4px;">➕ Add</button>`;
+                                }
+                                
                                 return `
-                                    <li>
-                                        <strong>${dev.name || 'VAVE Device'}</strong>
-                                        <span class="text-muted">IP: ${dev.ip} (${roleName})${portsInfo}</span>
+                                    <li style="display:flex; justify-content:space-between; align-items:center; padding: 1rem; border-bottom: 1px solid var(--border);">
+                                        <div>
+                                            <strong>${dev.name || 'VAVE Device'}</strong>
+                                            <span class="text-muted" style="display:block; font-size:0.85rem; margin-top:0.2rem;">IP: ${dev.ip} (${roleName})${portsInfo}</span>
+                                        </div>
+                                        <div>
+                                            ${actionBtn}
+                                        </div>
                                     </li>
                                 `;
                             }).join('');
+                            
+                            resultsList.querySelectorAll('.btn-add-scanned').forEach(btn => {
+                                btn.addEventListener('click', () => {
+                                    const ip = btn.dataset.ip;
+                                    const lastOctet = ip.split('.').pop();
+                                    
+                                    const addModal = document.getElementById('add-device-modal');
+                                    const addId = document.getElementById('add-dev-id');
+                                    const addName = document.getElementById('add-dev-name');
+                                    const addIp = document.getElementById('add-dev-ip');
+                                    const addRole = document.getElementById('add-dev-role');
+                                    
+                                    if (addIp) addIp.value = ip;
+                                    if (addId) addId.value = lastOctet;
+                                    if (addName) addName.value = `Device ${lastOctet}`;
+                                    if (addRole) addRole.value = 'decoder'; // default to decoder
+                                    
+                                    if (addModal) addModal.classList.remove('hidden');
+                                });
+                            });
                         }
                     }
                 } else {
@@ -1584,6 +1660,56 @@ document.addEventListener('DOMContentLoaded', () => {
                     scanStatus.textContent = currentLanguage === 'en' ? 'Error during network scan.' : 'เกิดข้อผิดพลาดในการแสกน';
                     scanStatus.classList.add('error-text');
                 }
+            }
+        });
+    }
+
+    // --- Add Custom Device Modal and Form ---
+    const addDeviceModal = document.getElementById('add-device-modal');
+    const addDeviceForm = document.getElementById('add-device-form');
+    const btnAddCustomDevice = document.getElementById('btn-add-custom-device');
+    const btnCancelAddDevice = document.getElementById('btn-cancel-add-device');
+    
+    if (btnAddCustomDevice) {
+        btnAddCustomDevice.addEventListener('click', () => {
+            if (addDeviceForm) addDeviceForm.reset();
+            if (addDeviceModal) addDeviceModal.classList.remove('hidden');
+        });
+    }
+    
+    if (btnCancelAddDevice) {
+        btnCancelAddDevice.addEventListener('click', () => {
+            if (addDeviceModal) addDeviceModal.classList.add('hidden');
+        });
+    }
+    
+    if (addDeviceForm) {
+        addDeviceForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const devId = document.getElementById('add-dev-id').value.trim();
+            const name = document.getElementById('add-dev-name').value.trim();
+            const ip = document.getElementById('add-dev-ip').value.trim();
+            const role = document.getElementById('add-dev-role').value;
+            
+            try {
+                const res = await fetch('/api/devices', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Admin-PIN': adminPin
+                    },
+                    body: JSON.stringify({ id: devId, name: name, ip: ip, role: role })
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    showToast(currentLanguage === 'en' ? 'Device added successfully' : 'เพิ่มอุปกรณ์เรียบร้อย');
+                    if (addDeviceModal) addDeviceModal.classList.add('hidden');
+                    await fetchDevices();
+                } else {
+                    showToast(data.error || 'Failed to add device', true);
+                }
+            } catch (e) {
+                showToast('Network error adding device', true);
             }
         });
     }
